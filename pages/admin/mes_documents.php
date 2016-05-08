@@ -25,96 +25,23 @@
                               </tr>
                           </thead>
                           <tbody>
-                              <tr class="odd gradeX">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="even gradeC">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
-                              <tr class="odd gradeA">
-                                  <td>Titre 1</td>
-                                  <td>Projet 1</td>
-                                  <td>23-03-2016</td>
-                              </tr>
+                              <?php
+                              while($ligne = $query->fetch())
+                                {
+                                  
+                                  echo "<tr>";
+                                  echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_doc']."'>"."</td>";
+
+                                  echo "<td align='center'>".$ligne['titre']."</td>";
+                                echo "<td align='center'>".$ligne['projet']."</td>";
+                                  echo "<td align='center'>".$ligne['date_creation']."</td>";
+                                  echo "<td align='center'>".$ligne['description']."</td>";
+                                   
+                                 echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier" onclick="triggerModal('.$ligne['id_doc'].');"></a></td>';
+                                   echo "</tr>";
+                                }
+                              ?>
+                            </tbody>
 
                           </tbody>
                       </table>

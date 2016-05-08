@@ -10,11 +10,11 @@ $p=$_GET['id_projet'];
                                                         (SELECT r.`id_projet`, `username` as membre
                                                 FROM `user_projet` r,`user`u 
                                                         WHERE u.`id_user`=r.`id_user`and r.role="membre"
-                                                         group by `id_projet`)as B,
+                                                         group by `id_projet`)as B
                                                 
-                                        WHERE A.`Id_projet`=p.`Id_projet`
-                                        and b.`Id_projet`=p.`Id_projet`
-                                        and c.`Id_projet`=p.`Id_projet` 
+                                        WHERE A.`id_projet`=p.`Id_projet`
+                                        and B.`id_projet`=p.`Id_projet`
+                                                                             
                                         and  p.`Id_projet`='.$p.'
                                          group by `id_projet`');
 	$query->execute();
