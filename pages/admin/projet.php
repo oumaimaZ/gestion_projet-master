@@ -2,7 +2,7 @@
   include 'includes/header.php';
   include 'includes/side_bar.php';
 ?>
-<?php
+<?php  //*****************************************************creation**********************************************************
    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     if (isset($_POST['submit'])){
@@ -29,32 +29,32 @@
     }
 ?>
 <?php
+//**************************************************modifier**********************************************************
    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     if (isset($_POST['modifier'])){
 
       $titre =$_POST['titreM'];
       $prop=$_POST['propM'];
-      $membre=$_POST['membreM'];
+     // $membre=$_POST['membreM'];
       $desc=$_POST['descM'];
       $date=$_POST['dbM'];
+      $datec=$_POST['dcM'];
       $statut=$_POST['statutM'];
-      $id=$_POST['hiddenid'];
-      
+      $idp=$_POST['id_projet'];
+     // $idu=$_POST['id_user'];
       $query = $db->prepare('UPDATE projet 
                             SET titre = "'.$titre.'", 
                             statut = "'.$statut.'",
                             description = "'.$desc.'",
                             `date_butoir` = "'.$date.'"
-                            WHERE Id_projet = '.$Id_projet);
-
+                            WHERE Id_projet = '.$idp);
       $query->execute();
-      $query = $db->prepare(' '                           
-                           );
-
-      $query->execute();
-
-     
+     /* $query2 = $db->prepare('UPDATE `user_projet` 
+                            SET id_user = "'.$membre.'",
+                            role="membre"
+                           WHERE Id_projet = '.$idp);
+      $query2->execute(); */  
     }
 ?>
 
@@ -62,27 +62,28 @@
    $user_session=$_SESSION["id_user"];
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
-  $sql = 'SELECT p.* ,A.proprietaire ,B.nbm ,C.nbd,B.membre
-FROM `projet`p ,(SELECT `id_projet`,`username` as proprietaire 
-                FROM `user_projet` r,`user`u 
-                WHERE u.`id_user`=r.`id_user` 
-                And r.`role`="proprietaire")as A,
-                (SELECT r.`id_projet`,count(r.`id_user`) as nbm, `username` as membre
-        FROM `user_projet` r,`user`u 
-                WHERE u.`id_user`=r.`id_user` 
-                 group by `id_projet`)as B,
-        (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd 
-                 FROM `document` 
-                 group by "id_projet") as C
-WHERE A.`Id_projet`=p.`Id_projet`
-and b.`Id_projet`=p.`Id_projet`
-and c.`Id_projet`=p.`Id_projet`  
-group by `id_projet`';
+                             $sql = 'SELECT p.* ,A.proprietaire ,B.nbm ,C.nbd,B.membre
+                                        FROM `projet`p ,(SELECT `id_projet`,`username` as proprietaire 
+                                                        FROM `user_projet` r,`user`u 
+                                                        WHERE u.`id_user`=r.`id_user` 
+                                                        And r.`role`="proprietaire")as A,
+                                                        (SELECT r.`id_projet`,count(r.`id_user`) as nbm, `username` as membre
+                                                FROM `user_projet` r,`user`u 
+                                                        WHERE u.`id_user`=r.`id_user` 
+                                                         group by `id_projet`)as B,
+                                                (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd 
+                                                         FROM `document` 
+                                                         group by "id_projet") as C
+                                        WHERE A.`Id_projet`=p.`Id_projet`
+                                        and b.`Id_projet`=p.`Id_projet`
+                                        and c.`Id_projet`=p.`Id_projet`  
+                                        group by `id_projet`';
 
   $query = $db->prepare($sql);
   $query->execute();
  
 ?>
+
 <div id="page-wrapper">
   <div class="row">
       <div class="col-md-12">
@@ -156,7 +157,7 @@ group by `id_projet`';
                         <form class="form-horizontal" role="form" action="projet.php" method="POST">
 
                           <div class="form-group">
-                            <label  class="col-sm-2 control-label" for="titre">titre du projet</label>
+                            <label  class="col-sm-2 control-label" for="titre">Titre du projet</label>
                             <div class="col-sm-10">
                               <input type="text" class="form-control" id="titre" name="titre" placeholder="Projet"/>
                             </div>
@@ -168,39 +169,44 @@ group by `id_projet`';
                               <input type="Date" class="form-control" id="db" name="db" />
                             </div>
                             </div>
-
-
-
                             <div class="form-group">
-                            <label  class="col-sm-2 control-label" for="titre">participant</label>
+                            <label  class="col-sm-2 control-label" for="titre">Participant</label>
                             <div class="col-sm-10">
                              
                               <select class="form-control" id="participant" name="participant"  >
                                           <?php
-                                              
-                                              $stmt = $db->query('SELECT * FROM user');
+                                      $stmt = $db->query('SELECT * FROM user');
                                                while($row = $stmt->fetch())
-                             { 
-                              $r=$row['username'];
-                                $i=$row['id_user'];
-                                echo '<option value="'.$i.'"><input name="checkbox" type="checkbox" id="checkbox" value="membre">'.$r.'</option>';
+                             {$r=$row['username'];$i=$row['id_user'];
+                                echo '<option value="'.$i.'">'.$r.'</option>';
                               
-                             }
-                                   ?>                             
+                             }?>                             
                                </select>
-                            </div>
+                           </div>
                            </div>
                            <div class="form-group">
-                            <label  class="col-sm-2 control-label" for="titre">description</label>
+                            <label  class="col-sm-2 control-label" for="titre">Description</label>
                             <div class="col-sm-10">
                               <textarea class="form-control" id="desc" name="desc" /></textarea>  
                             </div>
                           </div>
 
-                          <div class="form-group">
-                            <label  class="col-sm-2 control-label" for="titre">piece jointe</label>
+                           <div class="form-group">
+                            <label  class="col-sm-2 control-label" for="titre">Statut</label>
                             <div class="col-sm-10">
-                              <input type="file" class="form-control" id="inputfile" name="inputfile" />
+                             <select class="form-control" id="statut" name="statut"  >
+                                          <?php
+                                              
+                                              $stmt = $db->query('SELECT DISTINCT statut FROM projet');
+                                               while($row = $stmt->fetch())
+                             { 
+                              $r=$row['statut'];
+                                $i=$row['Id_projet'];
+                                echo '<option value="'.$i.'">'.$r.'</option>';
+                              
+                             }
+                                   ?>                             
+                               </select>  
                             </div>
                           </div>
 
@@ -226,55 +232,61 @@ group by `id_projet`';
           <form class="form-horizontal" role="form" action="utilisateurs.php" method="POST">
 
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">titre</label>
+              <label  class="col-sm-2 control-label" for="titre">Titre</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="titreM" name="titreM" />
               </div>
             </div>
             
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">propriétaire</label>
+              <label  class="col-sm-2 control-label" for="titre">Propriétaire</label>
               <div class="col-sm-10">
 
                 <input type="text" class="form-control" id="propM" name="propM" />
               </div>
             </div>
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">membre</label>
+              <!--label  class="col-sm-2 control-label" for="titre">Membre</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="membreM" name="membre" />
               </div>
-              </div>
+              </div-->
               <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">date butoir</label>
+                            <label  class="col-sm-2 control-label" for="titre">Date de création</label>
+                            <div class="col-sm-10">
+                              <input type="Date" class="form-control" id="dcM" name="dcM" />
+                            </div>
+                            </div>
+              <div class="form-group">
+              <label  class="col-sm-2 control-label" for="titre">Date butoir</label>
               <div class="col-sm-10">
                 <input type="Date" class="form-control" id="dbM" name="dbM" />
               </div>
              </div>
-             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">description</label>
-              <div class="col-sm-10">
-                <textarea class="form-control" id="descM" name="descM" /></textarea>  
-                            </div>
-            </div>
-
-            <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">statut</label>
+              <div class="form-group">
+              <label  class="col-sm-2 control-label" for="titre">Statut</label>
               <div class="col-sm-10">
                  <select name="role" class="form-control" id="statutM">
-                  <option value="1">en cours</option>
-                  <option value="2">achevé</option>
-                 
+                            <?php
+                                         $stmt = $db->query('SELECT DISTINCT statut FROM projet');
+                                               while($row = $stmt->fetch())
+                             { $r=$row['statut'];$i=$row['Id_projet'];
+                                echo '<option value="'.$i.'">'.$r.'</option>';                         
+                             }?>                             
+                          
                 </select>
               </div>
             </div>
-            
+             <div class="form-group">
+              <label  class="col-sm-2 control-label" for="titre">Description</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" id="descM" name="descM" /></textarea>  
+                 </div>
             </div>
-
-            <input type="hidden" id="hiddenid" name="hiddenid" />
-
-
-            <div class="form-group">
+            </div>
+             <input type="hidden" id="id_user" name="id_user" />
+           <!--input type="hidden" id="id_projet" name="id_projet"  /-->
+             <div class="form-group">
               <div class="col-sm-12">
                 <button class="btn btn-primary pull-right" type="submit" name="modifier">Modifier</button>
 </div>
@@ -285,9 +297,6 @@ group by `id_projet`';
 
 
       <!-- END MODAL-->
-
-
-
 
 </div>
             </div>

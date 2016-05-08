@@ -1,4 +1,5 @@
 <?php
+// ***********************************creer un utilisateur****************************************************** 
    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     if (isset($_POST['submit'])){
@@ -37,8 +38,9 @@
 ?>
 
 <?php
+        // ************************Modifier***************************************************
    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
-
+ 
     if (isset($_POST['modifier'])){
 
       $nom =$_POST['nomM'];
@@ -65,6 +67,8 @@
     }
 ?>
 <?php 
+
+// *****************************SUPPRIMER********************************************
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
   if(isset($_POST['delete'])){
 
@@ -130,7 +134,6 @@
                               <?php
                               while($ligne = $query->fetch())
                                 {
-
                                   if($ligne['role'] == '1') $role = 'admin';
                                   else if($ligne['role'] == '2') $role = 'Chef de projet';
                                   else if($ligne['role'] == '3') $role = 'Membre';
@@ -149,7 +152,6 @@
                                 }
                               ?>
                             </tbody>
-
                       </table>
                       <input class="btn btn-danger" type="submit" name="delete" value="Supprimer">
                   </div>
@@ -193,13 +195,37 @@
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="titre">service/division</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="service" name="service" placeholder="service"/>
+               
+                <select class="form-control"  id="service" name="service" placeholder="service" >
+                                          <?php
+                                              
+                                              $stmt = $db->query('SELECT Distinct`service-division` FROM `user`');
+                                               while($row = $stmt->fetch())
+                             { 
+                              $r=$row['service-division'];
+                                $i=$row['id_user'];
+                                echo '<option value="'.$i.'">'.$r.'</option>';
+                                                           }
+                                   ?>                             
+                               </select>
               </div>
               </div>
               <div class="form-group">
               <label  class="col-sm-2 control-label" for="titre">direction</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="direction" name="direction" placeholder="direction"/>
+               <select class="form-control" id="participant" name="participant"  >
+                                          <?php
+                                              
+                                              $stmt = $db->query('SELECT Distinct direction FROM user');
+                                               while($row = $stmt->fetch())
+                             { 
+                              $r=$row['direction'];
+                                $i=$row['id_user'];
+                                echo '<option value="'.$i.'">'.$r.'</option>';
+                              
+                             }
+                                   ?>                             
+                               </select>
               </div>
              </div>
              <div class="form-group">
@@ -296,7 +322,7 @@
              <div class="form-group">
               <label  class="col-sm-2 control-label" for="titre">role</label>
               <div class="col-sm-10">
-                <select name="role" class="form-control" id="roleM">
+                <select name="roleM" class="form-control" id="roleM">
                   <option value="1">Admin</option>
                   <option value="2">Chef de projet</option>
                   <option value="3">Membre</option>
