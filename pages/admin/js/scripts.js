@@ -1,5 +1,5 @@
 function triggerModal(id){
-	
+
 	$.ajax({
 		url: 'ajax/getUser.php?id=' + id,
 		type: 'GET',
@@ -18,15 +18,18 @@ function triggerModal(id){
 			document.getElementById('roleM').disabled = true;
 		}
 	});
+}
+
+function triggerProjectModal(id){
 	$.ajax({
-		url: 'ajax/getuser_projet.php?id=' + id,
+		url: 'ajax/getuser_projet.php?id_projet=' + id,
 		type: 'GET',
 		success: function(data){
 
 			var parsed = JSON.parse(data);
 
 			document.getElementById('titreM').value = parsed.titre;
-			document.getElementById('propM').value = parsed.participant;
+			document.getElementById('propM').value = parsed.proprietaire;
 			document.getElementById('membreM').value = parsed.membre;
 			document.getElementById('descM').value = parsed.desc;
 			document.getElementById('dbM').value = parsed.db;
@@ -34,7 +37,7 @@ function triggerModal(id){
 			document.getElementById('id_projet').value = parsed.id_projet;
 			document.getElementById('id_user').value = parsed.id_user;
 			document.getElementById('dcM').value = parsed.dc;
-			document.getElementById('dc').disabled = true;
+			//document.getElementById('dc').disabled = true;
 		}
 	});
 }
