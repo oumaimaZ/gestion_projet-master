@@ -2,18 +2,6 @@
   include 'includes/header.php';
   include 'includes/side_bar.php';
 ?>
-<?php
-
-   $user_session=$_SESSION["id_user"];
-  $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
-
-                             $sql = 'SELECT * from document
-                             where proprietaire='.$user_session;
-
-  $query = $db->prepare($sql);
-  $query->execute();
-
-?>
 <div id="page-wrapper">
   <div class="row">
       <div class="col-md-12">
@@ -34,8 +22,6 @@
                                   <th>Titre</th>
                                   <th>Nom du projet</th>
                                   <th>Date de création</th>
-                                  <th>Description</th>
-                                  <th>modifier</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -71,7 +57,7 @@
   <!-- /.row -->
 
   <!-- Modal -->
-  <div id="ajoutDocument" class="modal fade" role="dialog">
+  <div id="ajoutDoccument" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
@@ -91,17 +77,17 @@
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="projets">Projet Concerné</label>
               <div class="col-sm-10">
-                 <?php
-                                      $s = $db->query('SELECT titre FROM projet');
-                                               while($row = $s->fetch())
-                             {$r=$row['id_projet'];$i=$row['titre'];
-                                echo '<option value="'.$i.'">'.$r.'</option>';
-
-                             }?>
+                <select id="projets" class="form-control">
+                  <option>projet1</option>
+                  <option>projet2</option>
+                  <option>projet3</option>
+                  <option>projet4</option>
+                  <option>projet5</option>
+                </select>
               </div>
             </div>
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">Importer un  document (pdf)</label>
+              <label  class="col-sm-2 control-label" for="titre">Importer un  doccument (pdf)</label>
               <div class="col-sm-10">
                 <input type="file" class="form-control" id="titre" placeholder="Titre"/>
               </div>

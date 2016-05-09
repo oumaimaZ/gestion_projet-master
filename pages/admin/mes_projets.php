@@ -1,34 +1,23 @@
-<?php  //**********************************************creer projet**********************************************************
- include 'includes/header.php';
-  include 'includes/side_bar.php';
-   $user_session=$_SESSION["id_user"];
 
+<?php  //**********************************************creation**********************************************************
    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     if (isset($_POST['submit'])){
-    
       $titre =$_POST['titre'];
+
       $db = $_POST['db'];
-      $participant=$_POST['participant'];
+    // $participant=$_POST['participant'];
       $desc=$_POST['desc'];
-      $statut=$_POST['statut'];
-      
-      if($titre != ""&& $db != "" && $participant !="" &&  $statut !=""){
-       
-    $sql = 'INSERT INTO `projet`(`titre`, `date_butoir`, `description`, `statut`) 
-    VALUES ("'.$titre.'",
-      "'.$db.'",
-      "'.$desc.'",
-      "'.$statut.'")';
+      $piece=$_POST['inputfile'];
+      $proprietaire=$user;
+      if($titre != "" && $membre !="" && $db != "" && $participant !="" &&  $email !="" && $piece !="" &&  $service !="" ){
+    $sql = 'INSERT INTO projet(titre,date_butoir,description) VALUES ("'.$titre.'","'.$db.'","'.$desc.'")';
     $query = $db->prepare($sql);
     $query->execute();
-    $idp=$db->LastInsertedId();
-    $sql1 = 'INSERT INTO `user_projet`(`role`, `id_projet`, `id_user`) 
-    VALUES ("propriétaire",
-      "'.$idp.'",
-      "'.$user_session.'")';
-    $query = $db->prepare($sql1);
-    $query->execute();
+   $idp=$db->LastInsertedId();
+    $sql1 = 'INSERT INTO user_projet(role,id_projet,id_user) VALUES ("admin","'.$idp.'","'.$user_session.'")';
+   $query = $db->prepare($sql1);
+   $query->execute();
 
     } else
     {
@@ -38,20 +27,19 @@
 ?>
 <?php
 //**************************************************modifier**********************************************************
- 
-  $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
+   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     if (isset($_POST['modifier'])){
 
       $titre =$_POST['titreM'];
       $prop=$_POST['propM'];
-    //$membre=$_POST['membreM'];
+     // $membre=$_POST['membreM'];
       $desc=$_POST['descM'];
       $date=$_POST['dbM'];
       $datec=$_POST['dcM'];
       $s=$_POST['statutM'];
       $idp=$_POST['id_projet'];
-    //$idu=$_POST['id_user'];
+     // $idu=$_POST['id_user'];
       $query = $db->prepare('UPDATE projet
                             SET titre = "'.$titre.'",
                            statut = "'.$s.'",
@@ -68,7 +56,9 @@
 ?>
 
 <?php
-
+include 'includes/header.php';
+  include 'includes/side_bar.php';
+   $user_session=$_SESSION["id_user"];
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
                              $sql = 'SELECT p.* ,A.proprietaire ,B.nbm ,C.nbd,B.membre
@@ -88,16 +78,15 @@
                                         and c.`id_projet`=p.`id_projet`
                                         group by `id_projet`';
 
-                              $query = $db->prepare($sql);
-                              $query->execute();
+  $query = $db->prepare($sql);
+  $query->execute();
+
 ?>
-
-
 
 <div id="page-wrapper">
   <div class="row">
       <div class="col-md-12">
-          <h1 class="page-header">Projets</h1>
+          <h1 class="page-header">Mes projets</h1>
            <button class="btn btn-primary" data-toggle="modal" data-target="#ajoutprojet"><i class="fa fa-plus-circle"></i> Nouveau Projet</button>
             </div>
       <!-- /.col-lg-12 -->
@@ -133,10 +122,10 @@
                                   echo "<td align='center'>".$ligne['nbm'].$user.$ligne['nbd'].$doc."</td>";
                                   echo "<td align='center'>".$ligne['statut']."</td>";
                                   echo "<td align='center'>".$ligne['date_creation']."</td>";
-                                  echo "<td align='center'>".$ligne['date_butoir']."</td>";
-                                  echo "<td align='center'>".$ligne['description']."</td>";
-                                  echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier" onclick="triggerProjectModal('.$ligne['id_projet'].');"></a></td>';
-                                  echo "</tr>";
+                                   echo "<td align='center'>".$ligne['date_butoir']."</td>";
+                                   echo "<td align='center'>".$ligne['description']."</td>";
+                                    echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier" onclick="triggerProjectModal('.$ligne['id_projet'].');"></a></td>';
+                                    echo "</tr>";
                                 }
                               ?>
                             </tbody>
@@ -201,19 +190,22 @@
                             </div>
                           </div>
 
-                          <div class="form-group">
+                           <div class="form-group">
                             <label  class="col-sm-2 control-label" for="titre">Statut</label>
                             <div class="col-sm-10">
-                               <select class="form-control" id="statut" name="statut"  >
-                                            <?php
-                                            $stmt = $db->query('SELECT DISTINCT statut FROM projet');
-                                            while($row = $stmt->fetch())
-                               {  $r=$row['statut'];
-                                  $i=$row['id_projet'];
-                                  echo '<option value="'.$i.'">'.$r.'</option>';
-                               }
-                                     ?>
-                                </select>
+                             <select class="form-control" id="statut" name="statut"  >
+                                          <?php
+
+                                              $stmt = $db->query('SELECT DISTINCT statut FROM projet');
+                                               while($row = $stmt->fetch())
+                             {
+                              $r=$row['statut'];
+                                $i=$row['id_projet'];
+                                echo '<option value="'.$i.'">'.$r.'</option>';
+
+                             }
+                                   ?>
+                               </select>
                             </div>
                           </div>
 
@@ -221,8 +213,7 @@
                           <div class="form-group">
                             <div class="col-sm-12">
                               <button class="btn btn-primary pull-right" type="submit" name="submit">créer</button>
-                            </div>
-                          </div>
+
                  <!--end of modal -->
           </form>
         </div>

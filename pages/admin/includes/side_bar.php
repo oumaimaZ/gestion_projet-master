@@ -20,6 +20,9 @@
                           <li>
                             <a href="mes_projets.php"><i class="fa fa-paperclip fa-fw"></i>Mes Projets</a>
                         </li>
+                        <li>
+                            <a href="taches.php"><i class="fa fa-paperclip fa-fw"></i>Taches </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

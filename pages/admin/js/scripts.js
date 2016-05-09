@@ -34,10 +34,10 @@ function triggerProjectModal(id){
 			document.getElementById('descM').value = parsed.desc;
 			document.getElementById('dbM').value = parsed.db;
 			document.getElementById('statutM').value = parsed.statut;
-			document.getElementById('id_projet').value = parsed.id_projet;
+			document.getElementById('Id_projet').value = parsed.id_projet;
 			document.getElementById('id_user').value = parsed.id_user;
 			document.getElementById('dcM').value = parsed.dc;
-			//document.getElementById('dc').disabled = true;
+			document.getElementById('dc').disabled = true;
 		}
 	});
 }

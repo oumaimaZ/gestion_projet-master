@@ -213,7 +213,7 @@
               <div class="form-group">
               <label  class="col-sm-2 control-label" for="titre">direction</label>
               <div class="col-sm-10">
-               <select class="form-control" id="participant" name="participant"  >
+               <select class="form-control" id="direction" name="direction"  >
                                           <?php
                                               
                                               $stmt = $db->query('SELECT Distinct direction FROM user');
