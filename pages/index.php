@@ -7,12 +7,11 @@
 		if(isset($_SESSION['role'])){
 
 			if($_SESSION['role'] == '1') header('location: admin/index.php');
-			else if($_SESSION['role'] == '2') header('location: chef_de_projet/index.php');
+			//else if($_SESSION['role'] == '2') header('location: chef_de_projet/index.php');
 			else if($_SESSION['role'] == '3') header('location: membre/index.php');
 
 		}
-	} 
-	else {
+		} 	else {
 
 		header('Location: login.php');
 	}

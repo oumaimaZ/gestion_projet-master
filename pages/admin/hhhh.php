@@ -11,10 +11,82 @@
 
     $query = $db->prepare($sql);
     $query->execute();
+  ?>
+  <?php
+$db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
+ if (isset($_POST['submit'])){
+      $nom =$_POST['nom'];
+      $prenom=$_POST['prenom'];
+      $code = $_POST['code'];
+      $username=$_POST['username'];
+      $adresse=$_POST['adresse'];
+      $tel=$_POST['telephone'];
+      $email=$_POST['email'];
+      $dir=$_POST['direction'];
+      $div=$_POST['division'];
+      if($nom != "" && $prenom !="" && $code != ""&& $adresse !="" && $username !="" && $tel !="" && $email !="" && $dir !="" && $div !="" ){
+    $sql = 'INSERT INTO user 
+            VALUES (NULL, 
+              "'.$username.'", 
+              "'.$nom.'", 
+              "'.$prenom.'", 
+              "'.$code.'", 
+              "'.$adresse.'", 
+              "'.$service.'", 
+              "'.$dir.'", 
+              "'.$tel.'", 
+              "'.$email.'", 
+              "'.$role.'")';
+
+    $query = $db->prepare($sql);
+    $query->execute();
     
 
-?>
-?>
+
+
+
+
+  ?>
+
+ <?php
+$db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
+ if (isset($_POST['submit'])){
+      $nom =$_POST['nom'];
+      $prenom=$_POST['prenom'];
+      $code = $_POST['code'];
+      $username=$_POST['username'];
+      $adresse=$_POST['adresse'];
+      $tel=$_POST['telephone'];
+      $email=$_POST['email'];
+      $dir=$_POST['direction'];
+      $div=$_POST['division'];
+      if($nom != "" && $prenom !="" && $code != ""&& $adresse !="" && $username !="" && $tel !="" && $email !="" && $dir !="" && $div !="" ){
+    $sql = 'INSERT INTO user 
+            VALUES (NULL, 
+              "'.$username.'", 
+              "'.$nom.'", 
+              "'.$prenom.'", 
+              "'.$code.'", 
+              "'.$adresse.'", 
+              "'.$service.'", 
+              "'.$dir.'", 
+              "'.$tel.'", 
+              "'.$email.'", 
+              "'.$role.'")';
+
+    $query = $db->prepare($sql);
+    $query->execute();
+    
+
+
+
+
+
+  ?>
+
+
+
+
 <div id="page-wrapper">
   <div class="row">
       <div class="col-md-12">
@@ -99,13 +171,13 @@
                       </div>
                <label  class="col-sm-2 control-label" for="division">division</label>
                       <div class="col-xs-3">
-                        <input type="text" class="form-control" id="code" placeholder="code"/>
+                        <input type="text" class="form-control" id="division" placeholder="division"/>
                       </div>
             </div>
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="mdp">mot de passe</label>
                        <div class="col-xs-3">
-                          <input type="text" class="form-control" id="code" placeholder="code"/>
+                          <input type="password" class="form-control" id="code" placeholder="code"/>
                         </div>
                <label  class="col-sm-2 control-label" for="division">direction</label>
                       <div class="col-xs-3">
@@ -120,6 +192,16 @@
                <label  class="col-sm-2 control-label" for="division">telephone</label>
                       <div class="col-xs-3">
                         <input type="text" class="form-control" id="telephone" placeholder="telephone"/>
+                      </div>
+            </div>
+             <div class="form-group">
+              <label  class="col-sm-2 control-label" for="login">e_mail</label>
+                     <div class="col-xs-3">
+                       
+                      </div>
+               <label  class="col-sm-2 control-label" for="division">adresse</label>
+                      <div class="col-xs-3">
+                        <input type="adresse" class="form-control" id="adresse" placeholder="adresse"/>
                       </div>
             </div>
 
@@ -385,7 +467,7 @@
               </div>
             </div><div class="form-group">
               <div class="col-sm-12">
-                <button class="btn btn-primary pull-right">creer</button>
+                <button class="btn btn-primary pull-right"type="submit" name="creer">creer</button>
               </div>
             </div>
              </div>
