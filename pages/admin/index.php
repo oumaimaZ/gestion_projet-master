@@ -1,10 +1,10 @@
 <?php
-  include 'includes/header.php';
-  include 'includes/side_bar.php';
+include 'includes/header.php';
+include 'includes/side_bar.php';
  ?>
 
 
- 
+
  <div id="page-wrapper">
    <div class="row">
        <div class="col-md-12">
@@ -21,14 +21,22 @@
             <input type="submit" name="submit" value="ok" />
             </form>
    </div><?php
- 
+
  if (isset($_POST['submit'])){
 
-      foreach($_POST['options[]'])
-      {$check = implode('/',$_POST['options[]']); }
-      echo $check;}
-   
-    header("location: index.php");
+      $check = array();
+      foreach($_POST['options'] as $value){
+
+        array_push($check, $value);
+      }
+      $check = implode("/", $check);
+      echo $check;
+    }
+
+
+
+
+    //header("location: index.php");
 ?>
  </div>
  <?php
