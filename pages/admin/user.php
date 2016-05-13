@@ -1,7 +1,7 @@
 <?php
 
   if (isset($_POST['submit'])){
-
+    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
     $nom =$_POST['nom'];
     $prenom=$_POST['prenom'];
     $code =$_POST['code'] ;
@@ -44,7 +44,7 @@
     foreach($_POST['event'] as $value){
     array_push($event, $value);}
     $event = implode("/", $event);
-    
+
   if($username != "" && $nom != "" && $prenom !="" && $code != "" && $username !="" && $tel !="" && $email !="" && $dir !="" && $div !="" &&  $adresse !=""){
     $sql = 'INSERT INTO user
     VALUES (NULL,
