@@ -13,37 +13,55 @@
     $adresse=$_POST['adresse'];
 
 
-    $doc = array();
-    $tache=array();
-    $event =array();
-    $projet =array();
-    $notif =array();
-    $user = array();
+    $doc = "";
+    $tache= "";
+    $event = "";
+    $projet = "";
+    $notif = "";
+    $user = "";
 
     //document
-    foreach($_POST['document'] as $value){
-    array_push($doc, $value);}
-    $doc = implode(",", $doc);
+    if(isset($_POST['document'])){
+      $doc = array();
+      foreach($_POST['document'] as $value){
+      array_push($doc, $value);}
+      $doc = implode(",", $doc);
+    }
     //tache
-    foreach($_POST['tache'] as $value){
-    array_push($tache, $value);}
-    $tache = implode("/", $tache);
+    if(isset($_POST['tache'])){
+      $tache=array();
+      foreach($_POST['tache'] as $value){
+      array_push($tache, $value);}
+      $tache = implode("/", $tache);
+    }
     //projet
-    foreach($_POST['projet'] as $value){
-    array_push($projet, $value);}
-    $projet = implode("/", $projet);
+    if(isset($_POST['projet'])){
+      $projet =array();
+      foreach($_POST['projet'] as $value){
+      array_push($projet, $value);}
+      $projet = implode("/", $projet);
+    }
     //notif
-    foreach($_POST['notif'] as $value){
-    array_push($notif, $value);}
-    $notif = implode("/", $notif);
+    if(isset($_POST['notif'])){
+      $notif =array();
+      foreach($_POST['notif'] as $value){
+      array_push($notif, $value);}
+      $notif = implode("/", $notif);
+    }
     //user
-    foreach($_POST['user'] as $value){
-    array_push($user, $value);}
-    $user = implode("/", $user);
+    if(isset($_POST['user'])){
+      $user = array();
+      foreach($_POST['user'] as $value){
+      array_push($user, $value);}
+      $user = implode("/", $user);
+    }
     //event
-    foreach($_POST['event'] as $value){
-    array_push($event, $value);}
-    $event = implode("/", $event);
+    if(isset($_POST['event'])){
+      $event =array();
+      foreach($_POST['event'] as $value){
+      array_push($event, $value);}
+      $event = implode("/", $event);
+    }
 
   if($username != "" && $nom != "" && $prenom !="" && $code != "" && $username !="" && $tel !="" && $email !="" && $dir !="" && $div !="" &&  $adresse !=""){
     $sql = 'INSERT INTO user
