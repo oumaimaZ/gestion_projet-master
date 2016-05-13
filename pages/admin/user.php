@@ -1,16 +1,88 @@
 <?php
+
+  if (isset($_POST['submit'])){
+
+    $nom =$_POST['nom'];
+    $prenom=$_POST['prenom'];
+    $code =$_POST['code'] ;
+    $username=$_POST['username'];
+    $tel=$_POST['telephone'];
+    $email=$_POST['email'];
+    $dir=$_POST['direction'];
+    $div=$_POST['division'];
+    $adresse=$_POST['adresse'];
+
+
+    $doc = array();
+    $tache=array();
+    $event =array();
+    $projet =array();
+    $notif =array();
+    $user = array();
+
+    //document
+    foreach($_POST['document'] as $value){
+    array_push($doc, $value);}
+    $doc = implode(",", $doc);
+    //tache
+    foreach($_POST['tache'] as $value){
+    array_push($tache, $value);}
+    $tache = implode("/", $tache);
+    //projet
+    foreach($_POST['projet'] as $value){
+    array_push($projet, $value);}
+    $projet = implode("/", $projet);
+    //notif
+    foreach($_POST['notif'] as $value){
+    array_push($notif, $value);}
+    $notif = implode("/", $notif);
+    //user
+    foreach($_POST['user'] as $value){
+    array_push($user, $value);}
+    $user = implode("/", $user);
+    //event
+    foreach($_POST['event'] as $value){
+    array_push($event, $value);}
+    $event = implode("/", $event);
+    
+  if($username != "" && $nom != "" && $prenom !="" && $code != "" && $username !="" && $tel !="" && $email !="" && $dir !="" && $div !="" &&  $adresse !=""){
+    $sql = 'INSERT INTO user
+    VALUES (NULL,
+    "'.$username.'",
+    "'.$nom.'",
+    "'.$prenom.'",
+    "'.$code.'",
+    " '.$adresse.'",
+    "'.$div.'",
+    "'.$dir.'",
+    "'.$tel.'",
+    "'.$email.'",
+    "1",
+    "'.$doc.'",
+    "'.$tache.'",
+    "'.$event.'",
+    "'.$notif.'",
+    "'.$user.'")';
+    $query = $db->prepare($sql);
+    $query->execute();
+  }else{
+  echo"no";
+  }
+}
+
+  //header("location: index.php");
+?>
+
+<?php
   include 'includes/header.php';
   include 'includes/side_bar.php';
-
-
-
 
    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
   $sql='SELECT * FROM user';
        $query = $db->prepare($sql);
     $query->execute();
     ?>
-   
+
 
 
 <div id="page-wrapper">
@@ -41,7 +113,7 @@
                               <?php
                               while($ligne = $query->fetch())
                                 {
-                                  
+
                                   echo "<tr>";
                                   echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_user']."'>"."</td>";
 
@@ -82,73 +154,73 @@
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="nom">Nom</label>
                       <div class="col-xs-3">
-                        <input type="text" class="form-control" id="nom" placeholder="nom"/>
+                        <input type="text" class="form-control" id="nom" placeholder="nom" name="nom"/>
                       </div>
               <label  class="col-sm-2 control-label" for="prenom">prenom</label>
                       <div class="col-xs-3">
-                        <input type="text" class="form-control" id="prenom" placeholder="prenom"/>
+                        <input type="text" class="form-control" id="prenom" placeholder="prenom" name="prenom"/>
                       </div>
             </div>
 
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="login">login</label>
                      <div class="col-xs-3">
-                        <input type="text" class="form-control" id="username" placeholder="username"/>
+                        <input type="text" class="form-control" id="username" placeholder="username" name="username"/>
                       </div>
                <label  class="col-sm-2 control-label" for="division">division</label>
                       <div class="col-xs-3">
-                        <input type="text" class="form-control" id="division" placeholder="division"/>
+                        <input type="text" class="form-control" id="division" placeholder="division" name="division"/>
                       </div>
             </div>
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="mdp">mot de passe</label>
                        <div class="col-xs-3">
-                          <input type="password" class="form-control" id="code" placeholder="code"/>
+                          <input type="password" class="form-control" id="code" placeholder="code" name="code"/>
                         </div>
                <label  class="col-sm-2 control-label" for="division">direction</label>
                       <div class="col-xs-3">
-                        <input type="text" class="form-control" id="direction" placeholder="direction"/>
+                        <input type="text" class="form-control" id="direction" placeholder="direction" name="direction"/>
                       </div>
             </div>
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="login">e_mail</label>
                      <div class="col-xs-3">
-                        <input type="email" class="form-control" id="email" placeholder="email"/>
+                        <input type="email" class="form-control" id="email" placeholder="email" name="email"/>
                       </div>
                <label  class="col-sm-2 control-label" for="division">telephone</label>
                       <div class="col-xs-3">
-                        <input type="text" class="form-control" id="telephone" placeholder="telephone"/>
+                        <input type="text" class="form-control" id="telephone" placeholder="telephone" name="telephone"/>
                       </div>
             </div>
              <div class="form-group">
               <label  class="col-sm-2 control-label" for="login">adresse</label>
                      <div class="col-xs-3">
                      <div class="form-group">
-                              <textarea class="form-control" id="adresse" placeholder="adresse"></textarea>
-                          
+                              <textarea class="form-control" id="adresse" placeholder="adresse" name="adresse"></textarea>
+
                       </div>
-              
+
             </div>
 
-            
+
             <div class="form-group">
               <div class="col-sm-12">
                <h3 class="modal-title"> Priviléges </h3>
-             
-                    <div class="panel panel-default"> 
+
+                    <div class="panel panel-default">
                       <div class="panel-body">
                         <div class="col-xs-8.col-sm-6">
-                        
+
                                   <div class="col-xs-4">
                                   <div class="panel panel-default">
-                                  
+
                                             <div class="panel-heading">
                                                     <input name='document[]' type='checkbox' id='document1' value="1">   Document</div>
                                             <div class="panel-body">
                                                     <div class="checkbox">
                                                       <label><input type="checkbox" name='document[]' id='document2'value="2" disabled unchecked>creer</label>
                                                     </div>
-                                                      
+
                                                     <div class="checkbox">
                                                       <label><input type="checkbox"name='document[]'id='document3' value="3" disabled checked>consulter</label>
                                                     </div>
@@ -160,7 +232,7 @@
                                                     </div>
                                             </div>
                                             <script>
-                                                
+
                                                $('#document1').change(function(){
                                                   if($("#document1").is(":checked")) {
                                                     $('#document2').attr("disabled",false);
@@ -173,10 +245,10 @@
                                                      $('#document3').attr("disabled",true);
                                                       $('#document4').attr("disabled",true);
                                                        $('#document5').attr("disabled",true);
-                                                  
+
                                                   }
-                                               }); 
-                                            
+                                               });
+
                                             </script>
                                             <div class="panel-footer">
                                               <div class="checkbox">
@@ -185,17 +257,17 @@
                                             </div></div>
 
                                             </div>
-                                            
+
                                             <div class="col-xs-4">
                                   <div class="panel panel-default">
-                                  
+
                                             <div class="panel-heading">
                                             <input name='tache[]' type='checkbox' id='tache1' value="1">   tâches</div>
                                             <div class="panel-body">
                                                     <div class="checkbox">
                                                       <label><input type="checkbox" id='tache2' name='tache[]' value="2"  disabled unchecked>creer</label>
                                                     </div>
-                                                      
+
                                                     <div class="checkbox">
                                                       <label><input type="checkbox"id='tache3' name='tache[]'value="3" disabled checked>consulter</label>
                                                     </div>
@@ -207,7 +279,7 @@
                                                     </div>
                                             </div>
                                             <script>
-                                                
+
                                                $('#tache1').change(function(){
                                                   if($("#tache1").is(":checked")) {
                                                     $('#tache2').attr("disabled",false);
@@ -220,10 +292,10 @@
                                                      $('#tache3').attr("disabled",true);
                                                       $('#tache4').attr("disabled",true);
                                                        $('#tache5').attr("disabled",true);
-                                                  
+
                                                   }
-                                               }); 
-                                            
+                                               });
+
                                             </script>
                                             <div class="panel-footer">
                                               <div class="checkbox">
@@ -234,11 +306,11 @@
                                             </div>
                                             <div class="col-xs-4">
                                             <div class="panel panel-default">
-                                  
+
                                             <div class="panel-heading">
-                                            <input name='projet[]' type='checkbox' id='projet1'  value="1" > 
+                                            <input name='projet[]' type='checkbox' id='projet1'  value="1" >
                                               Projet</div>
-                                            
+
                                             <div class="panel-body">
                                                     <div class="checkbox">
                                                       <label><input type="checkbox" name='projet[]' id='projet2' value="2" disabled unchecked>creer</label>
@@ -253,10 +325,10 @@
                                                       <label><input type="checkbox" name='projet[]'id='projet5' value="5" disabled unchecked>editer</label>
                                                     </div>
                                             </div>
-                                           
+
 
                                             <script>
-                                                
+
                                                $('#projet1').change(function(){
                                                   if($("#projet1").is(":checked")) {
                                                     $('#projet2').attr("disabled",false);
@@ -269,10 +341,10 @@
                                                      $('#projet3').attr("disabled",true);
                                                       $('#projet4').attr("disabled",true);
                                                        $('#projet5').attr("disabled",true);
-                                                  
+
                                                   }
-                                               }); 
-                                            
+                                               });
+
                                             </script>
                                             <div class="panel-footer">
                                               <div class="checkbox">
@@ -283,7 +355,7 @@
                                             </div>
                                             <div class="col-xs-4">
                                   <div class="panel panel-default">
-                                  
+
                                             <div class="panel-heading">
                                             <input name='checkbox[]' type='checkbox' id='user1' value="1">  utilisateurs</div>
                                              <div class="panel-body">
@@ -301,7 +373,7 @@
                                                     </div>
                                             </div>
                                             <script>
-                                                
+
                                                $('#user1').change(function(){
                                                   if($("#user1").is(":checked")) {
                                                     $('#user2').attr("disabled",false);
@@ -314,24 +386,24 @@
                                                      $('#user3').attr("disabled",true);
                                                       $('#user4').attr("disabled",true);
                                                        $('#user5').attr("disabled",true);
-                                                  
+
                                                   }
-                                               }); 
-                                            
+                                               });
+
                                             </script>
                                             </div>
 
                                             </div>
                                             <div class="col-xs-4">
                                   <div class="panel panel-default">
-                                  
+
                                             <div class="panel-heading">
                                             <input name='event[]' type='checkbox' id='event1' value="1">evenements</div>
                                             <div class="panel-body">
                                                     <div class="checkbox">
                                                       <label><input type="checkbox" name='event[]'id='event2' value="2" disabled unchecked>creer</label>
                                                     </div>
-                                                     
+
                                                     <div class="checkbox">
                                                       <label><input type="checkbox" name='event[]' id='event3'value="3" disabled checked>consulter</label>
                                                     </div>
@@ -343,7 +415,7 @@
                                                     </div>
                                             </div>
                                             <script>
-                                                
+
                                                $('#event1').change(function(){
                                                   if($("#event1").is(":checked")) {
                                                     $('#event2').attr("disabled",false);
@@ -356,10 +428,10 @@
                                                      $('#event3').attr("disabled",true);
                                                       $('#event4').attr("disabled",true);
                                                        $('#event5').attr("disabled",true);
-                                                  
+
                                                   }
-                                               }); 
-                                            
+                                               });
+
                                             </script>
                                             <div class="panel-footer">
                                               <div class="checkbox">
@@ -370,28 +442,28 @@
                                             </div>
                                             <div class="col-xs-4">
                                   <div class="panel panel-default">
-                                  
+
                                             <div class="panel-heading">
                                             <input name='notif[]' type='checkbox' id='notif1' value="1">  Notification</div>
                                             <div class="panel-body">
                                                     <div class="checkbox">
                                                       <label><input type="checkbox"id='notif2'name='notif[]' value="2" disabled checked>creer</label>
                                                     </div>
-                                                                                                       
+
                                             </div>
                                              <script>
-                                                
+
                                                $('#notif1').change(function(){
                                                   if($("#notif1").is(":checked")) {
                                                     $('#notif2').attr("disabled",false);
-                                                     
+
                                                   }
                                                   else{
                                                     $('#notif2').attr("disabled",true);
-                                                   
+
                                                   }
-                                               }); 
-                                            
+                                               });
+
                                             </script>
                                             <div class="panel-footer">
                                               <div class="checkbox">
@@ -400,10 +472,10 @@
                                             </div></div>
 
                                             </div>
-                                            
-                        
+
+
                       </div>
-                  
+
               </div>
             </div><div class="form-group">
               <div class="col-sm-12">
@@ -411,7 +483,7 @@
               </div>
             </div>
              </div>
-            
+
           </form>
         </div>
       </div>
@@ -419,80 +491,6 @@
     </div>
   </div>
 </div>
- <?php
-
-                                                   if (isset($_POST['submit'])){
-
-                                                     $nom =$_POST['nom'];
-                                                      $prenom=$_POST['prenom'];
-                                                      $code =$_POST['code'] ;
-                                                      $username=$_POST['username'];
-                                                      $tel=$_POST['telephone'];
-                                                      $email=$_POST['email'];
-                                                      $dir=$_POST['direction'];
-                                                      $div=$_POST['division'];
-                                                       $adresse=$_POST['adresse'];
-
-                                                        
-                                                        $doc = array();
-                                                        $tache=array();
-                                                        $event =array();
-                                                        $projet =array();
-                                                         $notif =array();
-                                                         $user = array();
-                                                         
-                                                        //document
-                                                        foreach($_POST['document'] as $value){
-                                                          array_push($doc, $value);}
-                                                        $doc = implode(",", $doc);
-                                                        //tache
-                                                        foreach($_POST['tache'] as $value){
-                                                            array_push($tache, $value);}
-                                                          $tache = implode("/", $tache);
-                                                        //projet
-                                                        foreach($_POST['projet'] as $value){
-                                                            array_push($projet, $value);}
-                                                          $projet = implode("/", $projet);
-                                                          //notif
-                                                        foreach($_POST['notif'] as $value){
-                                                            array_push($notif, $value);}
-                                                          $notif = implode("/", $notif);
-                                                        //user
-                                                        foreach($_POST['user'] as $value){
-                                                            array_push($user, $value);}
-                                                          $user = implode("/", $user);
-                                                          //event
-                                                        foreach($_POST['event'] as $value){
-                                                            array_push($event, $value);}
-                                                          $event = implode("/", $event);
-      if($username != "" && $nom != "" && $prenom !="" && $code != "" && $username !="" && $tel !="" && $email !="" && $dir !="" && $div !="" &&  $adresse !=""){
-                                                    $sql = 'INSERT INTO user 
-                                                            VALUES (NULL, 
-                                                              "'.$username.'", 
-                                                              "'.$nom.'", 
-                                                              "'.$prenom.'", 
-                                                              "'.$code.'", 
-                                                              " '.$adresse.'", 
-                                                              "'.$div.'", 
-                                                              "'.$dir.'", 
-                                                              "'.$tel.'", 
-                                                              "'.$email.'",
-                                                               "1",
-                                                                "'.$doc.'",
-                                                                "'.$tache.'",
-                                                                "'.$event.'",
-                                                                "'.$notif.'",
-                                                                "'.$user.'")'; 
-                                                          $query = $db->prepare($sql);
-                                                        $query->execute();
-                                                        
-                                                      }
-                                                      else{
-                                                        echo"no";
-                                                      }}
-
-                                                      //header("location: index.php");
-                                                  ?>
 <?php
   include 'includes/footer.php';
 ?>
