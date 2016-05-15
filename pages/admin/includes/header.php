@@ -36,6 +36,11 @@
     <!-- Morris Charts CSS -->
     <link href="../../bower_components/morrisjs/morris.css" rel="stylesheet">
 
+    <!-- Morris Charts CSS -->
+    <link href="../../dist/css/bootstrap-tokenfield.css" rel="stylesheet">
+    <!-- jQuery UI -->
+    <link href="../../dist/css/jquery-ui.css" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="../../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -46,6 +51,16 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- field token -->
+    <script src="../../dist/js/bootstrap-tokenfield.js"></script>
+    <!-- jQuery UI -->
+    <script src="../../dist/js/jquery-ui.js"></script>
+
+    <style>
+      ul.ui-autocomplete.ui-menu {
+        z-index: 9999;
+      }
+    </style>
 
 
 </head>

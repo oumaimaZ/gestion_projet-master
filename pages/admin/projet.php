@@ -6,16 +6,16 @@
    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     if (isset($_POST['submit'])){
-    
+
       $titre =$_POST['titre'];
       $db = $_POST['db'];
       $participant=$_POST['participant'];
       $desc=$_POST['desc'];
       $statut=$_POST['statut'];
-      
+
       if($titre != ""&& $db != "" && $participant !="" &&  $statut !=""){
-       
-    $sql = 'INSERT INTO `projet`(`titre`, `date_butoir`, `description`, `statut`) 
+
+    $sql = 'INSERT INTO `projet`(`titre`, `date_butoir`, `description`, `statut`)
     VALUES ("'.$titre.'",
       "'.$db.'",
       "'.$desc.'",
@@ -23,7 +23,7 @@
     $query = $db->prepare($sql);
     $query->execute();
     $idp=$db->LastInsertedId();
-    $sql1 = 'INSERT INTO `user_projet`(`role`, `id_projet`, `id_user`) 
+    $sql1 = 'INSERT INTO `user_projet`(`role`, `id_projet`, `id_user`)
     VALUES ("propriétaire",
       "'.$idp.'",
       "'.$user_session.'")';
@@ -38,7 +38,7 @@
 ?>
 <?php
 //**************************************************modifier**********************************************************
- 
+
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     if (isset($_POST['modifier'])){
@@ -179,27 +179,34 @@
                               <input type="Date" class="form-control" id="db" name="db" />
                             </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                             <label  class="col-sm-2 control-label" for="titre">Participant</label>
                             <div class="col-sm-10">
 
                               <select class="form-control" id="participant" name="participant"  >
                                           <?php
-                                      $s = $db->query('SELECT * FROM user');
-                                               while($row = $s->fetch())
-                             {$r=$row['username'];$i=$row['id_user'];
-                                echo '<option value="'.$i.'">'.$r.'</option>';
-
-                             }?>
+                              //           $s = $db->query('SELECT * FROM user');
+                              //                    while($row = $s->fetch())
+                              //  {$r=$row['username'];$i=$row['id_user'];
+                              //     echo '<option value="'.$i.'">'.$r.'</option>';
+                               //
+                              //  }?>
                                </select>
                            </div>
-                           </div>
+                           </div> -->
                            <div class="form-group">
                             <label  class="col-sm-2 control-label" for="titre">Description</label>
                             <div class="col-sm-10">
                               <textarea class="form-control" id="desc" name="desc" /></textarea>
                             </div>
                           </div>
+
+                          <div class="form-group">
+                           <label  class="col-sm-2 control-label" for="participant">participant</label>
+                           <div class="col-sm-10">
+                             <input type="text" class="form-control" id="participant" name="participant" />
+                           </div>
+                         </div>
 
                           <div class="form-group">
                             <label  class="col-sm-2 control-label" for="titre">Statut</label>
@@ -308,6 +315,18 @@
 
 </div>
             </div>
+
+<script>
+  $(document).ready(function(){
+    $('#participant').tokenfield({
+      autocomplete: {
+        source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+        delay: 100
+      },
+      showAutocompleteOnFocus: true
+    });
+  });
+</script>
 
 <?php
   include 'includes/footer.php';
