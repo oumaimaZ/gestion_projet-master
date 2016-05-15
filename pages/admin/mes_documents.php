@@ -6,9 +6,15 @@
 
    $user_session=$_SESSION["id_user"];
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
+ 
+       
+                      
 
-                             $sql = 'SELECT * from document
-                             where proprietaire='.$user_session;
+                             $sql = 'SELECT d.* ,p.titre as projets from document d,projet p
+                             where d.id_projet=p.id_projet
+                             and
+                             proprietaire= (SELECT username from user 
+                                                  where id_user='.$user_session.')';
 
   $query = $db->prepare($sql);
   $query->execute();
@@ -18,7 +24,7 @@
   <div class="row">
       <div class="col-md-12">
           <h1 class="page-header">Mes documents</h1>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#ajoutDoccument"><i class="fa fa-plus-circle"></i> Nouveau document</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#ajoutDocument"><i class="fa fa-plus-circle"></i> Nouveau document</button>
       </div>
       <!-- /.col-lg-12 -->
   </div>
@@ -31,9 +37,9 @@
                       <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                           <thead>
                               <tr>
-                                  <th>Titre</th>
-                                  <th>Nom du projet</th>
-                                  <th>Date de création</th>
+                                  <th>#</th>
+                                  <th>titre du document</th>
+                                  <th>Projet concerné</th>
                                   <th>Description</th>
                                   <th>modifier</th>
                               </tr>
@@ -47,15 +53,14 @@
                                   echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_doc']."'>"."</td>";
 
                                   echo "<td align='center'>".$ligne['titre']."</td>";
-                                echo "<td align='center'>".$ligne['projet']."</td>";
-                                  echo "<td align='center'>".$ligne['date_creation']."</td>";
+                                echo "<td align='center'>".$ligne['projets']."</td>";
                                   echo "<td align='center'>".$ligne['description']."</td>";
                                    
                                  echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier" onclick="triggerModal('.$ligne['id_doc'].');"></a></td>';
                                    echo "</tr>";
                                 }
                               ?>
-                            </tbody>
+                           </tbody>
 
                           </tbody>
                       </table>
@@ -91,13 +96,15 @@
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="projets">Projet Concerné</label>
               <div class="col-sm-10">
-                 <?php
-                                      $s = $db->query('SELECT titre FROM projet');
+                               <select class="form-control"  id="service" name="service" placeholder="service" >
+ <?php
+                                      $s = $db->query('SELECT * FROM projet');
                                                while($row = $s->fetch())
                              {$r=$row['id_projet'];$i=$row['titre'];
-                                echo '<option value="'.$i.'">'.$r.'</option>';
+                                echo '<option value="'.$r.'">'.$i.'</option>';
 
                              }?>
+                             </select>
               </div>
             </div>
             <div class="form-group">
@@ -108,7 +115,7 @@
             </div>
             <div class="form-group">
               <div class="col-sm-12">
-                <button class="btn btn-primary pull-right">Importer</button>
+                <button class="btn btn-primary pull-right" type="submit" name="importer">Importer</button>
               </div>
             </div>
           </form>

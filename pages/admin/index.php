@@ -1,17 +1,45 @@
 <?php
 include 'includes/header.php';
 include 'includes/side_bar.php';
+
 $user_session=$_SESSION["id_user"];
  $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
  $sql='SELECT * FROM user WHERE id_user='.$user_session;
 
-  $query = $db->prepare($sql);
-  $query->execute();
+  $query1 = $db->prepare($sql);
+  $query1->execute();
  ?>
-
-
-
-
+ <?php
+        
+        if(isset($_POST['submit'])){
+                    $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
+                    $ancien=$_POST['ancien'];
+                    $nmdp=$_POST['p1'];
+                    $vmdp=$_POST['p2'];
+                    
+            if ($ancien!="" && $nmdp!="" && $vmdp!=""){
+              $c='SELECT code_acces from user where id_user='.$user_session;
+                     $query = $db->prepare($c);
+                    $query->execute();
+                if ($ancien==$c){
+                    if($nmdp==$vmdp){
+                          $sql='UPDATE user SET code_acces="'.$nmdp.'" WHERE username='.$user_session;
+                            $q = $db->prepare($sql);
+                            $q->execute();
+                            echo 'Modification du mot de passe effectuee avec succes';
+                    } else {
+                        echo 'Erreur entre le nouveau mot de passe entr&eacute; et la verification';                }
+                } else {
+                    echo 'Le mot de passe actuel n\'est pas valide';
+                    }
+            } else {
+                echo 'Veuillez remplir tous les champs';
+            }
+        } else {
+            echo 'Page de modification de mot de passe - special VIP';
+        }
+                 
+    ?> 
  <div id="page-wrapper">
   <div class="row">
       <div class="col-md-12">
@@ -27,7 +55,7 @@ $user_session=$_SESSION["id_user"];
                 <form action="index.php" method="POST">
                    <div class="form-group">
                    <?php
-                              while($ligne = $query->fetch())
+                              while($ligne = $query1->fetch())
                                 { ?>
                       <label  class="col-sm-2 control-label" for="nom">Nom</label>
                       <div class="col-xs-4">
@@ -76,10 +104,9 @@ $user_session=$_SESSION["id_user"];
                     <div class="form-group">
                       <label  class="col-sm-2 control-label" for="divison">mot de passe</label>
                       <div class="col-xs-4">
-                     <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#psw">changer de mot de passe
-</button>
-                      
-                       </div>
+                     <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#psw">
+                        <a href="javascript:validateField();" class="theme-color accountFormToggleBtn display-block">click here to change your password</a>
+                      </button> </div>
                       <label  class="col-sm-2 control-label" for="prenom">Direction</label>
                       <div class="col-xs-4">
                       <p><?php 
@@ -91,6 +118,7 @@ $user_session=$_SESSION["id_user"];
                       <label  class="col-sm-2 control-label" for="divison">privilege </label>
                       <div class="col-xs-4">
                       <p><?php 
+                      
                       ECHO $ligne['priv_document'].$ligne['priv_tache'].$ligne['priv_event'].$ligne['priv_notif'].$ligne['priv_user'];
                        }?>
                        </p></br>
@@ -120,109 +148,22 @@ $user_session=$_SESSION["id_user"];
         <div class="modal-body">
 
 
-        <div class="form-group">
-    <a href="javascript:validateField();" class="theme-color accountFormToggleBtn display-block">click here to change your password</a>
+        <div name="changmdp4" id="changmdp4" class="cachediv">
+ 
+    <form  action="index.php" role="form"   method="POST">
+        <label>Mot de passe actuel : <input type="password" name="ancien" ></label>
+        <label>Nouveau mot de passe : <input type="password" name="p1" ></label>
+        <label>Verification mot de passe : <input type="password" name="p2" ></label>
+        <input type="submit" name="submit" value=" Envoyer ">
+    </form> 
+</div>
+    
 
-    <div class="accountFormToggle display-none" id="passwordForm"> 
-      <div class="col-md-5">
-        <label for="password">Password</label>
-        <input type='password' id="password" placeholder="Password" name='pass' class="form-control"  value='' data-bv-excluded="false" required>
-      </div>
-
-      <div class="col-md-5 col-md-offset-1">
-        <label for="exampleInputEmail1">Confirm password</label>
-        <input type='password' id="password2" placeholder="Confirm password" name='password2' class="form-control" value='' data-bv-excluded="false" data-match="#password" required> 
-      </div>
-    <script>  function validateField() {
-
-    if($('#passwordForm').is(':visible')) {  
-        $("#password").attr('data-bv-excluded',true);   
-        $("#password2").attr('data-bv-excluded',true);
-    } else {
-        $("#password").attr('data-bv-excluded',false);   
-        $("#password2").attr('data-bv-excluded',false);
-    }
-}</script>
-    </div> 
-</div></div>
-
-          <!--form id="identicalForm" class="form-horizontal"
-    data-fv-framework="bootstrap"
-    data-fv-icon-valid="glyphicon glyphicon-ok"
-    data-fv-icon-invalid="glyphicon glyphicon-remove"
-    data-fv-icon-validating="glyphicon glyphicon-refresh">
-
-    <div class="form-group">
-        <label class="col-xs-3 control-label">Password</label>
-        <div class="col-xs-5">
-            <input type="password" class="form-control" name="password" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-xs-3 control-label">Retype password</label>
-        <div class="col-xs-5">
-            <input type="password" class="form-control" name="confirmPassword"
-                data-fv-identical="true"
-                data-fv-identical-field="password"
-                data-fv-identical-message="The password and its confirm are not the same" />
-        </div>
-    </div>
-</form>
-
-<script>
-$(document).ready(function() {
-    $('#identicalForm').formValidation();
-});
-</script>
-
-            <form id="identicalForm" class="form-horizontal"role="form" action="index.php" method="POST">
-    <div class="form-group">
-        <label class="col-xs-3 control-label">Password</label>
-        <div class="col-xs-5">
-            <input type="password" class="form-control" name="password" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-xs-3 control-label">Retype password</label>
-        <div class="col-xs-5">
-            <input type="password" class="form-control" name="confirmPassword" />
-        </div>
-    </div>
-</form>
-
-<script>
-$(document).ready(function() {
-    $('#identicalForm').formValidation({
-        framework: 'bootstrap',
-        icon: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            confirmPassword: {
-                validators: {
-                    identical: {
-                        field: 'password',
-                        message: 'The password and its confirm are not the same'
-                    }
-                }
-            }
-        }
-    });
-});
-</script-->
-
-
-
-
-  
     </div>
   </div>
 </div>
- </div>
+ </div></div>
  <?php
-  include 'includes/footer.php';
-  ?>
+  include 'includes/footer.php';?>
+   
+  
