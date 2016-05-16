@@ -320,7 +320,7 @@
   $(document).ready(function(){
     $('#participant').tokenfield({
       autocomplete: {
-        source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+        source: 'ajax/getUsersNames.php?hint=' + document.getElementById('participant').value,
         delay: 100,
         minLength: 3
       },
