@@ -321,7 +321,8 @@
     $('#participant').tokenfield({
       autocomplete: {
         source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-        delay: 100
+        delay: 100,
+        minLength: 3
       },
       showAutocompleteOnFocus: true
     });
