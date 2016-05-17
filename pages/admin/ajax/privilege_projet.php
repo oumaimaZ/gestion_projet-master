@@ -42,29 +42,31 @@ $query = $db->prepare('SELECT p.*,g.username as participant
              
                  <div class='form-group'>
                   <label  class='col-sm-4 control-label' >privilege du projet  </label>
-                  <div class="panel panel-default">
+                  <div class='panel panel-default'>
 
-                                            <div class="panel-heading">
-                                                    <input name='document[]' type='checkbox' id='document1' value="1">   Document</div>
-                                            <div class="panel-body">
-                                                    <div class="checkbox">
-                                                      <label><input type="checkbox" name='document[]' id='document2'value="2" disabled unchecked>creer</label>
+                                            <div class='panel-heading'>
+                                                    <input name='p[]' type='checkbox' id='p1' value='1'>   p</div>
+                                            <div class='panel-body'>
+                                                    <div class='checkbox'>
+                                                      <label><input type='checkbox' name='p[]' id='p2'value='2' disabled unchecked>creer</label>
                                                     </div>
 
-                                                    <div class="checkbox">
-                                                      <label><input type="checkbox"name='document[]'id='document3' value="3" disabled checked>consulter</label>
+                                                    <div class='checkbox'>
+                                                      <label><input type='checkbox'name='p[]'id='p3' value='3' disabled checked>consulter</label>
                                                     </div>
-                                                    <div class="checkbox">
-                                                      <label><input type="checkbox"name='document[]'id='document4' value="4" disabled unchecked>supprimer</label>
+                                                    <div class='checkbox'>
+                                                      <label><input type='checkbox' name='p[]' id='p4'value='4' disabled unchecked>supprimer</label>
                                                     </div>
-                                                    <div class="checkbox">
-                                                      <label><input type="checkbox"name='document[]' id='document5'value="5" disabled unchecked>editer</label>
+
+                                                    <div class='checkbox'>
+                                                      <label><input type='checkbox'name='p[]'id='p5' value='5' disabled checked>editer</label>
                                                     </div>
+                                                    
                                             </div>
                                             
-                                            <div class="panel-footer">
-                                              <div class="checkbox">
-                                              <label><input type="checkbox" id='document6'name='document[]' value="6">Mes Documents(tous les priv)</label>
+                                            <div class='panel-footer'>
+                                              <div class='checkbox'>
+                                              <label><input type='checkbox' id='p6'name='p[]' value='6'>Mes ps(tous les priv)</label>
                                               </div>
                                             </div></div>
 
