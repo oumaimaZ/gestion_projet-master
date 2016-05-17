@@ -2,6 +2,9 @@
 <!-- /#wrapper -->
 <script src="js/scripts.js"></script>
 
+<!-- /#jQuery validate -->
+<script src="../../dist/js/jquery.validate.js"></script>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
