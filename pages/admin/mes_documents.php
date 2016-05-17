@@ -88,20 +88,14 @@
         <div class="modal-body">
           <form class="form-horizontal" role="form">
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">Titre</label>
-              <div class="col-sm-10">
+              <label  class="col-sm-4 control-label" for="titre">Titre</label>
+              <div class="col-sm-8">
                 <input type="text" class="form-control" id="titre" placeholder="Titre"/>
               </div>
             </div>
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">description</label>
-              <div class="col-sm-10">
-                <textarea></textarea>
-              </div>
-            </div>
-            <div class="form-group">
-              <label  class="col-sm-2 control-label" for="projets">Projet Concerné</label>
-              <div class="col-sm-10">
+              <label  class="col-sm-4 control-label" for="projets">Projet Concerné</label>
+              <div class="col-sm-8">
                                <select class="form-control"  id="service" name="service" placeholder="service" >
  <?php
                                       $s = $db->query('SELECT * FROM projet');
@@ -114,11 +108,18 @@
               </div>
             </div>
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">Importer un  document (pdf)</label>
-              <div class="col-sm-10">
+              <label  class="col-sm-4 control-label" for="titre">Importer un  document (pdf)</label>
+              <div class="col-sm-8">
                 <input type="file" class="form-control" id="titre" placeholder="Titre"/>
               </div>
             </div>
+            <div class="form-group">
+              <label  class="col-sm-4 control-label" for="titre">description</label>
+              <div class="col-sm-8">
+                <textarea class="form-control" id="desc"></textarea>
+              </div>
+            </div>
+            
             <div class="form-group">
               <div class="col-sm-12">
                 <button class="btn btn-primary pull-right" type="submit" name="importer">Importer</button>

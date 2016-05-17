@@ -1,44 +1,10 @@
-<?php  //**********************************************creer projet**********************************************************
- include 'includes/header.php';
-  include 'includes/side_bar.php';
-   $user_session=$_SESSION["id_user"];
 
-   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
-    if (isset($_POST['submit'])){
-
-      $titre =$_POST['titre'];
-      $db = $_POST['db'];
-      $participant=$_POST['participant'];
-      $desc=$_POST['desc'];
-      $statut=$_POST['statut'];
-
-      if($titre != ""&& $db != "" && $participant !="" &&  $statut !=""){
-
-    $sql = 'INSERT INTO `projet`(`titre`, `date_butoir`, `description`, `statut`)
-    VALUES ("'.$titre.'",
-      "'.$db.'",
-      "'.$desc.'",
-      "'.$statut.'")';
-    $query = $db->prepare($sql);
-    $query->execute();
-    $idp=$db->LastInsertedId();
-    $sql1 = 'INSERT INTO `user_projet`(`role`, `id_projet`, `id_user`)
-    VALUES ("propriétaire",
-      "'.$idp.'",
-      "'.$user_session.'")';
-    $query = $db->prepare($sql1);
-    $query->execute();
-
-    } else
-    {
-      echo "error";
-    }
-    }
-?>
 <?php
 //**************************************************modifier**********************************************************
-
+include 'includes/header.php';
+  include 'includes/side_bar.php';
+   $user_session=$_SESSION["id_user"];
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     if (isset($_POST['modifier'])){
@@ -71,21 +37,24 @@
 
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
-                             $sql = 'SELECT p.* ,A.proprietaire ,B.nbm ,C.nbd,B.membre
-                                        FROM `projet`p ,(SELECT `id_projet`,`username` as proprietaire
-                                                        FROM `user_projet` r,`user`u
-                                                        WHERE u.`id_user`=r.`id_user`
-                                                        And r.`role`="proprietaire")as A,
-                                                        (SELECT r.`id_projet`,count(r.`id_user`) as nbm, `username` as membre
-                                                FROM `user_projet` r,`user`u
-                                                        WHERE u.`id_user`=r.`id_user`
-                                                         group by `id_projet`)as B,
-                                                (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
+                             $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
+                                        FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username` 
+                                                         FROM groupe
+                                                        group by `id_projet`)as B,
+                                                        (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
                                                          FROM `document`
-                                                         group by "id_projet") as C
-                                        WHERE A.`id_projet`=p.`id_projet`
-                                        and b.`id_projet`=p.`id_projet`
-                                        and c.`id_projet`=p.`id_projet`
+                                                         group by id_projet) as C,
+                                                        (SELECT`id_projet`,count(id_tache) as nbt
+                                                         FROM tache
+                                                        group by `id_projet`)as D,
+                                                        (SELECT `id_projet`,`progression` 
+                                                         FROM tache
+                                                        group by `id_projet`)as E
+                                                        
+                                        WHERE B.`id_projet`=p.`id_projet`
+                                        and C.`id_projet`=p.`id_projet`
+                                        and D.`id_projet`=p.`id_projet`
+                                        and E.`id_projet`=p.`id_projet`
                                         group by `id_projet`';
 
                               $query = $db->prepare($sql);
@@ -98,11 +67,11 @@
   <div class="row">
       <div class="col-md-12">
           <h1 class="page-header">Projets</h1>
-           <button class="btn btn-primary" data-toggle="modal" data-target="#ajoutprojet"><i class="fa fa-plus-circle"></i> Nouveau Projet</button>
+         
             </div>
       <!-- /.col-lg-12 -->
-  </div>
-  <div class="row">
+  
+   <div class="row">
       <div class="col-lg-12">
           <div class="panel panel-default">
               <div class="panel-body">
@@ -119,19 +88,23 @@
                                   <th>date butoir</th>
                                   <th>description</th>
                                   <th>modifier</th>
-                              </tr>
-                          </thead>
+                                  </tr>
+                                  </thead>
                          <tbody>
                               <?php
                               while($ligne = $query->fetch())
                                 {
-                                   $doc="docs" ;$user="users /";$i=$ligne['nbm'];
+                                   
+                                   $doc="docs /" ;$user="users /";$tache="taches";
+                                   if($ligne['statut'] < '10') $stat= 'ouvert';
+                                  else if($ligne['statut'] > '11') $stat= 'en cours';
+                                  else if($ligne['statut'] > '98') $stat='achevé';
                                   echo "<tr>";
                                   echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_projet']."'>"."</td>";
                                   echo "<td align='center'>".$ligne['titre']."</td>";
                                   echo "<td align='center'>".$ligne['proprietaire']."</td>";
-                                  echo "<td align='center'>".$ligne['nbm'].$user.$ligne['nbd'].$doc."</td>";
-                                  echo "<td align='center'>".$ligne['statut']."</td>";
+                                  echo "<td align='center'>".$ligne['nbm'].$user.$ligne['nbd'].$doc.$ligne['nbt'].$tache."</td>";
+                                  echo "<td align='center'>".$stat."</td>";
                                   echo "<td align='center'>".$ligne['date_creation']."</td>";
                                   echo "<td align='center'>".$ligne['date_butoir']."</td>";
                                   echo "<td align='center'>".$ligne['description']."</td>";
@@ -179,21 +152,7 @@
                               <input type="Date" class="form-control" id="db" name="db" />
                             </div>
                             </div>
-                            <!-- <div class="form-group">
-                            <label  class="col-sm-2 control-label" for="titre">Participant</label>
-                            <div class="col-sm-10">
-
-                              <select class="form-control" id="participant" name="participant"  >
-                                          <?php
-                              //           $s = $db->query('SELECT * FROM user');
-                              //                    while($row = $s->fetch())
-                              //  {$r=$row['username'];$i=$row['id_user'];
-                              //     echo '<option value="'.$i.'">'.$r.'</option>';
-                               //
-                              //  }?>
-                               </select>
-                           </div>
-                           </div> -->
+                            
                            <div class="form-group">
                             <label  class="col-sm-2 control-label" for="titre">Description</label>
                             <div class="col-sm-10">

@@ -102,6 +102,7 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
     </div>
   </div>
+  <!-- end Modal -->
 </div>
 <?php
   include 'includes/footer.php';

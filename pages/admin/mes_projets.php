@@ -180,7 +180,7 @@ include 'includes/header.php';
                             <div class="form-group">
                            <label  class="col-sm-2 control-label" for="participant">participant</label>
                            <div class="col-sm-10">
-                             <input type="text" class="form-control" id="participant" name="participant" />
+                             <input type="text" class="b form-control" id="participant" name="participant" />
                            </div>
                          </div>
 
@@ -196,7 +196,7 @@ include 'includes/header.php';
 
                           <div class="form-group">
                             <div class="col-sm-12">
-                              <button class="b btn btn-primary pull-right" data-toggle="modal" data-target="#ajoutprivilege">créer</button>
+                              <button class=" btn btn-primary pull-right" data-toggle="modal"name="submit" id="submit"data-target="#ajoutprivilege">créer</button>
 
                  <!--end of modal -->
           </form>

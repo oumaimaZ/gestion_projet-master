@@ -18,7 +18,32 @@
   $query->execute();
 
 ?>
+<?php
+//**************************************************modifier**********************************************************
+   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
+    if (isset($_POST['modifier'])){
+
+      $titre =$_POST['titred'];
+       $projet =$_POST['projetd'];
+     // $membre=$_POST['membreM'];
+      $desc=$_POST['descd'];
+     
+     // $idu=$_POST['id_user'];
+      $query = $db->prepare('UPDATE projet
+                            SET titre = "'.$titre.'",
+                           statut = "'.$s.'",
+                            description = "'.$desc.'",
+                            `date_butoir` = "'.$date.'"
+                            WHERE id_projet = '.$idp);
+      $query->execute();
+     /* $query2 = $db->prepare('UPDATE `user_projet`
+                            SET id_user = "'.$membre.'",
+                            role="membre"
+                           WHERE id_projet = '.$idp);
+      $query2->execute(); */
+    }
+?>
   
 <div id="page-wrapper">
   <div class="row">
@@ -168,60 +193,34 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" name="creer" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modifier membre</h4>
+          <h4 class="modal-title">Modifier document</h4>
         </div>
         <div class="modal-body">
           <form class="form-horizontal" role="form" action="utilisateurs.php" method="POST">
 
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">nom</label>
+              <label  class="col-sm-2 control-label" for="titre">titre</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="nomM" name="nomM" placeholder="nom"/>
+                <input type="text" class="form-control" id="titred" name="titred" />
               </div>
             </div>
             
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">prenom</label>
+              <label  class="col-sm-2 control-label" for="titre">projet concerné</label>
               <div class="col-sm-10">
 
-                <input type="text" class="form-control" id="prenomM" name="prenomM" placeholder="prenom"/>
+                <input type="text" class="form-control" id="projetd" name="projetd" />
               </div>
             </div>
+             
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">service/division</label>
+              <label  class="col-sm-2 control-label" for="titre">Description</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="serviceM" name="serviceM" placeholder="service"/>
+                <input type="text" class="form-control" id="descd" name="descd" />
               </div>
               </div>
-              <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">direction</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="directionM" name="directionM" placeholder="direction"/>
-              </div>
-             </div>
-             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">telephone</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="telephoneM" name="telephoneM" placeholder="telephone"/>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">e-mail</label>
-              <div class="col-sm-10">
-                <input type="email" class="form-control" id="emailM" name="emailM" placeholder="email"/>
-              </div>
-            </div>
-             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">role</label>
-              <div class="col-sm-10">
-                <select name="roleM" class="form-control" id="roleM">
-                  <option value="1">Admin</option>
-                  <option value="2">Chef de projet</option>
-                  <option value="3">Membre</option>
-                </select>
-              </div>
-            </div>
+              
+             
            
             <input type="hidden" id="hiddenid" name="hiddenid" />
 
