@@ -90,7 +90,13 @@
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="titre">Titre</label>
               <div class="col-sm-10">
-                <input type="email" class="form-control" id="titre" placeholder="Titre"/>
+                <input type="text" class="form-control" id="titre" placeholder="Titre"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label  class="col-sm-2 control-label" for="titre">description</label>
+              <div class="col-sm-10">
+                <textarea></textarea>
               </div>
             </div>
             <div class="form-group">

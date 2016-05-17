@@ -22,11 +22,12 @@
                             <a href="taches.php"><i class="fa fa-tasks fa-fw"></i>Taches </a>
                         </li>
                          <li>
+                            <a href="mes_taches.php"><i class="fa fa-tasks fa-fw"></i>Mes taches </a>
+                        </li>
+                         <li>
                             <a href="user.php"><i class="fa fa-paperclip fa-fw"></i>User </a>
                         </li>
-                        <li>
-                            <a href="utilisateurs.php"><i class="fa fa-users fa-fw"></i> Utilisateurs</a>
-                        </li>
+                       
                          <li>
                             <a href="events.php"><i class="fa fa-calendar fa-fw"></i> Evenement</a>
                         </li>
@@ -35,6 +36,9 @@
                         </li>
                          <li>
                             <a href="Notif.php"><i class="fa fa-envelope-o fa-fw"></i> Notification</a>
+                        </li>
+                         <li>
+                            <a href="utilisateurs.php"><i class="fa fa-users fa-fw"></i> Utilisateurs</a>
                         </li>
                     </ul>
                 </div>

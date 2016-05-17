@@ -43,7 +43,7 @@
                                   <th>Projet concerné</th>
                                   <th>Description</th>
                                   <th>modifier</th>
-                                  <th>supprimer</th>
+                                 
                               </tr>
                           </thead>
                           <tbody>
@@ -57,7 +57,7 @@
                                   echo "<td align='center'>".$ligne['titre']."</td>";
                                 echo "<td align='center'>".$ligne['projets']."</td>";
                                   echo "<td align='center'>".$ligne['description']."</td>";
-                                   echo'<td align="center"><a  onclick="return confirm("are you sure you want to delete this item")">Delete</a></td>';
+                                   
                                  echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier" onclick="triggerModal('.$ligne['id_doc'].');"></a></td>';
                                    echo "</tr>";
                                 }
@@ -65,8 +65,9 @@
                             </tbody>
 
                           </tbody>
-                           <input class="btn btn-danger" type="submit" name="delete" value="delete">
-                      </table></form>
+                          
+                      </table></form> <input class="btn btn-danger" type="submit" name="delete" value="supprimer">
+                      <button class="btn btn-info">telecharger<span class="glyphicon glyphicon-download-alt"></span></button>
                   </div>
                   <!-- /.table-responsive -->
               </div>
@@ -221,24 +222,14 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
                 </select>
               </div>
             </div>
-            <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">direction</label>
-              <input type="text" class="form-control" id="tokenfield" value="" />
-<script>
-              $('#tokenfield').tokenfield({
-  autocomplete: {
-    source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-    delay: 100
-  },
-  showAutocompleteOnFocus: true
-})</script>
-             </div>
+           
             <input type="hidden" id="hiddenid" name="hiddenid" />
 
 
             <div class="form-group">
               <div class="col-sm-12">
                 <button class="btn btn-primary pull-right" type="submit" name="modifier">Modifier</button>
+
 </div>
             </div>
           </form>
@@ -252,4 +243,16 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 <?php
 
   include 'includes/footer.php';
+  /* <div class="form-group">
+              <label  class="col-sm-2 control-label" for="titre">direction</label>
+              <input type="text" class="form-control" id="tokenfield" value="" />
+<script>
+              $('#tokenfield').tokenfield({
+  autocomplete: {
+    source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+    delay: 100
+  },
+  showAutocompleteOnFocus: true
+})</script>
+             </div>*/
 ?>

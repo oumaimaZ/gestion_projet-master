@@ -4,18 +4,21 @@
 
     if (isset($_POST['submit'])){
       $titre =$_POST['titre'];
-
       $db = $_POST['db'];
-    // $participant=$_POST['participant'];
+     $participant=$_POST['participant'];
       $desc=$_POST['desc'];
-      $piece=$_POST['inputfile'];
-      $proprietaire=$user;
-      if($titre != "" && $membre !="" && $db != "" && $participant !="" &&  $email !="" && $piece !="" &&  $service !="" ){
+      $priv=$_POST['priv'];
+        
+$sql0='SELECT username from user WHERE id_projet='.$_SESSION["id_user"];
+      $proprietaire= $db->prepare($sql0);
+       $proprietaire->execute();
+
+      if($titre != "" && $desc !="" && $db != "" && $participant !="" ){
     $sql = 'INSERT INTO projet(titre,date_butoir,description) VALUES ("'.$titre.'","'.$db.'","'.$desc.'")';
     $query = $db->prepare($sql);
     $query->execute();
    $idp=$db->LastInsertedId();
-    $sql1 = 'INSERT INTO user_projet(role,id_projet,id_user) VALUES ("admin","'.$idp.'","'.$user_session.'")';
+    $sql1 = 'INSERT INTO groupe(id_projet,username,priv_projet) VALUES ('.$idp.'","'.$proprietaire.'","'.$priv.'")';
    $query = $db->prepare($sql1);
    $query->execute();
 
@@ -61,21 +64,24 @@ include 'includes/header.php';
    $user_session=$_SESSION["id_user"];
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
-                             $sql = 'SELECT p.* ,A.proprietaire ,B.nbm ,C.nbd,B.membre
-                                        FROM `projet`p ,(SELECT `id_projet`,`username` as proprietaire
-                                                        FROM `user_projet` r,`user`u
-                                                        WHERE u.`id_user`=r.`id_user`
-                                                        And r.`role`="proprietaire")as A,
-                                                        (SELECT r.`id_projet`,count(r.`id_user`) as nbm, `username` as membre
-                                                FROM `user_projet` r,`user`u
-                                                        WHERE u.`id_user`=r.`id_user`
-                                                         group by `id_projet`)as B,
-                                                (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
+                             $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
+                                        FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username` 
+                                                         FROM groupe
+                                                        group by `id_projet`)as B,
+                                                        (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
                                                          FROM `document`
-                                                         group by "id_projet") as C
-                                        WHERE A.`id_projet`=p.`id_projet`
-                                        and b.`id_projet`=p.`id_projet`
-                                        and c.`id_projet`=p.`id_projet`
+                                                         group by id_projet) as C,
+                                                        (SELECT`id_projet`,count(id_tache) as nbt
+                                                         FROM tache
+                                                        group by `id_projet`)as D,
+                                                        (SELECT `id_projet`,`progression` 
+                                                         FROM tache
+                                                        group by `id_projet`)as E
+                                                        
+                                        WHERE B.`id_projet`=p.`id_projet`
+                                        and C.`id_projet`=p.`id_projet`
+                                        and D.`id_projet`=p.`id_projet`
+                                        and E.`id_projet`=p.`id_projet`
                                         group by `id_projet`';
 
   $query = $db->prepare($sql);
@@ -114,13 +120,16 @@ include 'includes/header.php';
                               <?php
                               while($ligne = $query->fetch())
                                 {
-                                   $doc="docs" ;$user="users /";$i=$ligne['nbm'];
+                                   $doc="docs /" ;$user="users /";$tache="taches";
+                                   if($ligne['statut'] < '10') $stat= 'ouvert';
+                                  else if($ligne['statut'] > '11') $stat= 'en cours';
+                                  else if($ligne['statut'] > '98') $stat='achevé';
                                   echo "<tr>";
                                   echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_projet']."'>"."</td>";
                                   echo "<td align='center'>".$ligne['titre']."</td>";
                                   echo "<td align='center'>".$ligne['proprietaire']."</td>";
-                                  echo "<td align='center'>".$ligne['nbm'].$user.$ligne['nbd'].$doc."</td>";
-                                  echo "<td align='center'>".$ligne['statut']."</td>";
+                                  echo "<td align='center'>".$ligne['nbm'].$user.$ligne['nbd'].$doc.$ligne['nbt'].$tache."</td>";
+                                  echo "<td align='center'>".$stat."</td>";
                                   echo "<td align='center'>".$ligne['date_creation']."</td>";
                                    echo "<td align='center'>".$ligne['date_butoir']."</td>";
                                    echo "<td align='center'>".$ligne['description']."</td>";
@@ -153,7 +162,7 @@ include 'includes/header.php';
                         <h4 class="modal-title">Nouveau Projet</h4>
                       </div>
                       <div class="modal-body">
-                        <form class="form-horizontal" role="form" action="projet.php" method="POST">
+                        <form class="form-horizontal" role="form" action="mes_projets.php" method="POST">
 
                           <div class="form-group">
                             <label  class="col-sm-2 control-label" for="titre">Titre du projet</label>
@@ -169,20 +178,12 @@ include 'includes/header.php';
                             </div>
                             </div>
                             <div class="form-group">
-                            <label  class="col-sm-2 control-label" for="titre">Participant</label>
-                            <div class="col-sm-10">
-
-                              <select class="form-control" id="participant" name="participant"  >
-                                          <?php
-                                      $s = $db->query('SELECT * FROM user');
-                                               while($row = $s->fetch())
-                             {$r=$row['username'];$i=$row['id_user'];
-                                echo '<option value="'.$i.'">'.$r.'</option>';
-
-                             }?>
-                               </select>
+                           <label  class="col-sm-2 control-label" for="participant">participant</label>
+                           <div class="col-sm-10">
+                             <input type="text" class="form-control" id="participant" name="participant" />
                            </div>
-                           </div>
+                         </div>
+
                            <div class="form-group">
                             <label  class="col-sm-2 control-label" for="titre">Description</label>
                             <div class="col-sm-10">
@@ -190,29 +191,12 @@ include 'includes/header.php';
                             </div>
                           </div>
 
-                           <div class="form-group">
-                            <label  class="col-sm-2 control-label" for="titre">Statut</label>
-                            <div class="col-sm-10">
-                             <select class="form-control" id="statut" name="statut"  >
-                                          <?php
-
-                                              $stmt = $db->query('SELECT DISTINCT statut FROM projet');
-                                               while($row = $stmt->fetch())
-                             {
-                              $r=$row['statut'];
-                                $i=$row['id_projet'];
-                                echo '<option value="'.$i.'">'.$r.'</option>';
-
-                             }
-                                   ?>
-                               </select>
-                            </div>
-                          </div>
+                           
 
 
                           <div class="form-group">
                             <div class="col-sm-12">
-                              <button class="btn btn-primary pull-right" type="submit" name="submit">créer</button>
+                              <button class="b btn btn-primary pull-right" data-toggle="modal" data-target="#ajoutprivilege">créer</button>
 
                  <!--end of modal -->
           </form>
@@ -223,10 +207,47 @@ include 'includes/header.php';
   </div>
 </div>
 </div>
+<!-- Modal -->
+  <div id="ajoutprivilege" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class=" modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">affectation des priviléges</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" role="form">
+             <div class="modal-body">
+          <form class="form-horizontal" role="form" action="mes_projets.php" method="POST">
+
+            
+            <div class="a1 form-group">
+            <script type="text/javascript">
+  $('.b').click(function(){
+    var b= $(this).val();
+    $.post('ajax/privilege_projet.php',{val:b},function(result){
+        $('.a1').html(result)
+    });
+  });
+
+</script>
+
+            </form>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- end Modal -->
 
 <!-- Modal -->
   <div id="modifier" class="modal fade" role="dialog">
     <div class="modal-dialog">
+  <form class="form-horizontal" role="form" action="mes_projets.php" method="POST">
 
       <!-- Modal content-->
       <div class="modal-content">
@@ -235,7 +256,7 @@ include 'includes/header.php';
           <h4 class="modal-title">Modifier les données du projet </h4>
         </div>
         <div class="modal-body">
-          <form class="form-horizontal" role="form" action="projet.php" method="POST">
+          
 
             <div class="form-group">
               <label  class="col-sm-2 control-label" for="titre">Titre</label>
@@ -252,7 +273,7 @@ include 'includes/header.php';
               </div>
             </div>
             <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">Membre</label>
+              <label  class="col-sm-2 control-label" for="titre">participant</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="membreM" name="membreM" />
               </div>
@@ -263,18 +284,19 @@ include 'includes/header.php';
                               <input type="Date" class="form-control" id="dcM" name="dcM" />
                             </div>
                             </div>
+               <div class="form-group">
+                      <label  class="col-sm-2 control-label" for="titre">Date de réalisation</label>
+                      <div class="col-sm-10">
+                        <input type="Date" class="form-control" id="drM" name="drM" />
+                      </div>
+                      </div>
               <div class="form-group">
               <label  class="col-sm-2 control-label" for="titre">Date butoir</label>
               <div class="col-sm-10">
                 <input type="Date" class="form-control" id="dbM" name="dbM" />
               </div>
              </div>
-              <div class="form-group">
-              <label  class="col-sm-2 control-label" for="titre">Statut</label>
-              <div class="col-sm-10">
-                 <input type="text" class="form-control" id="statutM" name="statutM" />
-              </div>
-            </div>
+              
              <div class="form-group">
               <label  class="col-sm-2 control-label" for="titre">Description</label>
               <div class="col-sm-10">
@@ -299,6 +321,31 @@ include 'includes/header.php';
 
 </div>
             </div>
+            <script>
+  $(document).ready(function(){
+    $('#participant').tokenfield({
+      autocomplete: {
+        source: 'ajax/getUsersNames.php?hint=' + document.getElementById('participant').value,
+        delay: 100,
+        minLength: 3
+      },
+      showAutocompleteOnFocus: true
+    });
+  });
+</script>
+  <script>
+  $(document).ready(function(){
+    $('#membreM').tokenfield({
+      autocomplete: {
+        source: 'ajax/getUsersNames.php?hint=' + document.getElementById('membreM').value,
+        delay: 100,
+        minLength: 3
+      },
+      showAutocompleteOnFocus: true
+    });
+  });
+</script>
+
 
 <?php
   include 'includes/footer.php';
