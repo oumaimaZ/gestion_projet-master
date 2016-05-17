@@ -23,23 +23,23 @@
 	$p=$_POST['val'];
 
 $query = $db->prepare('SELECT p.*,g.username as participant
-                   FROM projet p,groupe g 
+                   FROM projet p,groupe g
                     WHERE p.id_projet=g.id_projet
                     and p.id_projet ='.$p);
 
 
 	$query->execute();
 	while($ligne = $query->fetch())
-           { 
+           {
 
-              
+
 
                echo " <div class='panel panel-default'>
 		              <div class='panel-body'>
 		              <div class='col-lg-9'>
 			                 <div class='form-group'>
 			              <label class='col-md-3 control-label'>".$ligne['participant']."</label></div></div>
-             
+
                  <div class='form-group'>
                   <label  class='col-sm-4 control-label' >privilege du projet  </label>
                   <div class='panel panel-default'>
@@ -61,9 +61,9 @@ $query = $db->prepare('SELECT p.*,g.username as participant
                                                     <div class='checkbox'>
                                                       <label><input type='checkbox'name='p[]'id='p5' value='5' disabled checked>editer</label>
                                                     </div>
-                                                    
+
                                             </div>
-                                            
+
                                             <div class='panel-footer'>
                                               <div class='checkbox'>
                                               <label><input type='checkbox' id='p6'name='p[]' value='6'>Mes ps(tous les priv)</label>
@@ -75,10 +75,6 @@ $query = $db->prepare('SELECT p.*,g.username as participant
                         </div>
                        </div></div>
 
-              "
-
-
-
-                 ;
+              ";
           }
 ?>
