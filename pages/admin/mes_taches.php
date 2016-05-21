@@ -116,7 +116,7 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
  <script type="text/javascript">
   $('.b').click(function(){
     var b= $(this).val();
-    $.post('ajax/ajax.php',{val:b},function(result){
+    $.post('ajax/detail_taches.php',{val:b},function(result){
         $('.a1').html(result)
     });
   });

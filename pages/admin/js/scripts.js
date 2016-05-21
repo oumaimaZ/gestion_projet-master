@@ -34,10 +34,29 @@ function triggerProjectModal(id){
 			document.getElementById('descM').value = parsed.desc;
 			document.getElementById('dbM').value = parsed.db;
 			document.getElementById('statutM').value = parsed.statut;
-			document.getElementById('Id_projet').value = parsed.id_projet;
+			document.getElementById('id_projet').value = parsed.id_projet;
 			document.getElementById('id_user').value = parsed.id_user;
 			document.getElementById('dcM').value = parsed.dc;
 			document.getElementById('dc').disabled = true;
+		}
+	});
+}
+
+function triggerProjectModal(id){
+	$.ajax({
+		url: 'ajax/getdoc.php?id_doc=' + id,
+		type: 'GET',
+		success: function(data){
+
+			var parsed = JSON.parse(data);
+
+			document.getElementById('titred').value = parsed.titre;
+			document.getElementById('descd').value = parsed.description;
+			
+			
+			
+			
+			
 		}
 	});
 }

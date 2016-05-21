@@ -5,7 +5,7 @@
                         <li>
                             <a href="index.php"><i class="fa fa-home fa-fw"></i> Accueil</a>
                         </li>
-                        
+                       
                         <li>
                             <a href="mes_documents.php"><i class="fa fa-file-text fa-fw"></i> Mes documents</a>
                         </li>

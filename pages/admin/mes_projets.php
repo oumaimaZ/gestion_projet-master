@@ -1,5 +1,7 @@
 
 <?php  //**********************************************creation**********************************************************
+include 'includes/header.php';
+  include 'includes/side_bar.php';
 $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
 if (isset($_POST['submit'])){
@@ -7,9 +9,9 @@ if (isset($_POST['submit'])){
   $db = $_POST['db'];
   $participant=$_POST['participant'];
   $desc=$_POST['desc'];
-  $priv=$_POST['priv'];
+  //$priv=$_POST['priv'];
 
-  $sql0='SELECT username from user WHERE id_projet='.$_SESSION["id_user"];
+  $sql0='SELECT username from user WHERE id_user='.$_SESSION['id_user'];
   $proprietaire= $db->prepare($sql0);
   $proprietaire->execute();
 
@@ -59,29 +61,30 @@ if (isset($_POST['modifier'])){
   ?>
 
   <?php
-  include 'includes/header.php';
-  include 'includes/side_bar.php';
+  
   $user_session=$_SESSION["id_user"];
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
   $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
   FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username`
-  FROM groupe
-  group by `id_projet`)as B,
-  (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
-  FROM `document`
-  group by id_projet) as C,
-  (SELECT`id_projet`,count(id_tache) as nbt
-  FROM tache
-  group by `id_projet`)as D,
-  (SELECT `id_projet`,`progression`
-    FROM tache
-    group by `id_projet`)as E
+                    FROM groupe
+                    group by `id_projet`)as B,
+                    (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
+                    FROM `document`
+                    group by id_projet) as C,
+                    (SELECT`id_projet`,count(id_tache) as nbt
+                    FROM tache
+                    group by `id_projet`)as D,
+                    (SELECT `id_projet`,`progression`
+                      FROM tache
+                      group by `id_projet`)as E
 
     WHERE B.`id_projet`=p.`id_projet`
     and C.`id_projet`=p.`id_projet`
     and D.`id_projet`=p.`id_projet`
     and E.`id_projet`=p.`id_projet`
+    and p.username=(select username from user where id_user='.$user_session.')
+
     group by `id_projet`';
 
     $query = $db->prepare($sql);
@@ -147,7 +150,7 @@ if (isset($_POST['modifier'])){
             <!-- /.panel-body -->
           </div>
           <!-- /.panel -->
-<<<<<<< HEAD
+
       </div>
       <!-- /.col-lg-12 -->
   </div>
@@ -201,8 +204,7 @@ if (isset($_POST['modifier'])){
 
                  <!--end of modal -->
           </form>
-=======
->>>>>>> origin/master
+
         </div>
         <!-- /.col-lg-12 -->
       </div>

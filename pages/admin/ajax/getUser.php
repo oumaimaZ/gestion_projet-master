@@ -15,13 +15,6 @@
 		'email' => $row['email'],
 		'role' => $row['role']
 	];
-<<<<<<< HEAD
-	
-=======
-	// premiere commentaire
-	
-// deuxieme commentaire
->>>>>>> origin/master
 
 	echo json_encode($data);
 ?>

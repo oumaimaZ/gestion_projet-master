@@ -72,7 +72,7 @@
   $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
   if(isset($_POST['delete'])){
 
-  $id=$_SESSION["id_user"];
+  
          $sql = 'SELECT *
                   FROM user ';
 

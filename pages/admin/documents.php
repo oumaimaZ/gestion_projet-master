@@ -10,9 +10,15 @@
        
                       
 
-                             $sql = 'SELECT d.* ,p.titre as projets from document d,projet p
+                             $sql = 'SELECT distinct d.* ,p.titre as projets 
+                             from document d,projet p,(select id_projet
+                                                       from groupe
+                                                        where username=(select username from user where id_user='.$user_session.'))as A,
+                                                      (select id_projet
+                                                       from projet
+                                                        where username=(select username from user where id_user='.$user_session.'))as B
                              where d.id_projet=p.id_projet
-                             ';
+                             AND (A.id_projet=p.id_projet OR B.id_projet=p.id_projet)';
 
   $query = $db->prepare($sql);
   $query->execute();
@@ -26,16 +32,20 @@
 
       $titre =$_POST['titred'];
        $projet =$_POST['projetd'];
-     // $membre=$_POST['membreM'];
-      $desc=$_POST['descd'];
-     
+     $file=$_POST['filed'];
+     $desc=$_POST['descM'];
+
+     $sql='SELECT id_projet from projet where titre='.$projet;
+     $p = $db->prepare($sql);
+  $p->execute();
+
      // $idu=$_POST['id_user'];
-      $query = $db->prepare('UPDATE projet
+      $query = $db->prepare('UPDATE document
                             SET titre = "'.$titre.'",
-                           statut = "'.$s.'",
-                            description = "'.$desc.'",
-                            `date_butoir` = "'.$date.'"
-                            WHERE id_projet = '.$idp);
+                          id_projet = "'.$p.'",
+                            description = "'.$desc.'"
+                            piece= "'.$file.'"
+                            WHERE id_doc = '.$idd);
       $query->execute();
      /* $query2 = $db->prepare('UPDATE `user_projet`
                             SET id_user = "'.$membre.'",
@@ -66,9 +76,10 @@
                                   <th>#</th>
                                   <th>titre du document</th>
                                   <th>Projet concerné</th>
+                                  <th>Propriétaire</th>
+                                  <th>date de création</th>
                                   <th>Description</th>
                                   <th>modifier</th>
-                                 
                               </tr>
                           </thead>
                           <tbody>
@@ -81,18 +92,20 @@
 
                                   echo "<td align='center'>".$ligne['titre']."</td>";
                                 echo "<td align='center'>".$ligne['projets']."</td>";
+                                echo "<td align='center'>".$ligne['proprietaire']."</td>";
+                                 echo "<td align='center'>".$ligne['date_creation']."</td>";
                                   echo "<td align='center'>".$ligne['description']."</td>";
                                    
                                  echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier" onclick="triggerModal('.$ligne['id_doc'].');"></a></td>';
                                    echo "</tr>";
                                 }
                               ?>
-                            </tbody>
+                           </tbody>
 
                           </tbody>
                           
                       </table></form> <input class="btn btn-danger" type="submit" name="delete" value="supprimer">
-                      <button class="btn btn-info">telecharger<span class="glyphicon glyphicon-download-alt"></span></button>
+                     
                   </div>
                   <!-- /.table-responsive -->
               </div>
