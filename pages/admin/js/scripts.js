@@ -49,6 +49,7 @@ function triggerDocumentModal(id){
 		success: function(data){
 
 			var parsed = JSON.parse(data);
+<<<<<<< HEAD
 
 			document.getElementById('hiddenid').value = parsed.id_doc;
 			document.getElementById('titred').value = parsed.titre;
@@ -57,6 +58,16 @@ function triggerDocumentModal(id){
 			document.getElementById('projetd').disabled = true;
 
 
+=======
+			document.getElementById('hiddenid').value = parsed.id_doc;
+			document.getElementById('titred').value = parsed.titre;
+			document.getElementById('descd').value = parsed.description;
+			document.getElementById('fichierd').value = parsed.nom_fichier;
+			
+			
+			
+			
+>>>>>>> origin/master
 		}
 	});
 }
