@@ -49,10 +49,10 @@ function triggerProjectModal(id){
 		success: function(data){
 
 			var parsed = JSON.parse(data);
-
+			document.getElementById('hiddenid').value = parsed.id_doc;
 			document.getElementById('titred').value = parsed.titre;
 			document.getElementById('descd').value = parsed.description;
-			
+			document.getElementById('fichierd').value = parsed.nom_fichier;
 			
 			
 			

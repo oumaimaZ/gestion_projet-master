@@ -268,11 +268,7 @@
                                                });
 
                                             </script>
-                                            <div class="panel-footer">
-                                              <div class="checkbox">
-                                              <label><input type="checkbox" id='document6'name='document[]' value="6">Mes Documents(tous les priv)</label>
-                                              </div>
-                                            </div></div>
+                                           </div>
 
                                             </div>
 
@@ -315,11 +311,7 @@
                                                });
 
                                             </script>
-                                            <div class="panel-footer">
-                                              <div class="checkbox">
-                                              <label><input type="checkbox"id='tache6' name='tache[]' value="6">Mes tâches(tous les priv)</label>
-                                              </div>
-                                            </div></div>
+                                           </div>
 
                                             </div>
                                             <div class="col-xs-4">
@@ -364,11 +356,7 @@
                                                });
 
                                             </script>
-                                            <div class="panel-footer">
-                                              <div class="checkbox">
-                                              <label><input type="checkbox" id='projet6' value="6">Mes projets(tous les priv)</label>
-                                              </div>
-                                            </div></div>
+                                            </div>
 
                                             </div>
                                             <div class="col-xs-4">
@@ -451,11 +439,7 @@
                                                });
 
                                             </script>
-                                            <div class="panel-footer">
-                                              <div class="checkbox">
-                                              <label><input type="checkbox"id='event6' name='event[]' value="6">Mes evenements(tous les priv)</label>
-                                              </div>
-                                            </div></div>
+                                            </div>
 
                                             </div>
                                             <div class="col-xs-4">
@@ -483,11 +467,7 @@
                                                });
 
                                             </script>
-                                            <div class="panel-footer">
-                                              <div class="checkbox">
-                                              <label><input type="checkbox"id='notif3'name='notif[]' value="3">Mes notifications(tous les priv)</label>
-                                              </div>
-                                            </div></div>
+                                            </div>
 
                                             </div>
 

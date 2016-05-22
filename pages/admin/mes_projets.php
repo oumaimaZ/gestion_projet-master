@@ -20,7 +20,7 @@ if (isset($_POST['submit'])){
     $query = $db->prepare($sql);
     $query->execute();
     $idp=$db->LastInsertedId();
-    $sql1 = 'INSERT INTO groupe(id_projet,username,priv_projet) VALUES ('.$idp.'","'.$proprietaire.'","'.$priv.'")';
+    $sql1 = 'INSERT INTO privilege(id_projet,username,priv_projet) VALUES ('.$idp.'","'.$proprietaire.'","'.$priv.'")';
     $query = $db->prepare($sql1);
     $query->execute();
 
@@ -67,7 +67,7 @@ if (isset($_POST['modifier'])){
 
   $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
   FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username`
-                    FROM groupe
+                    FROM privilege
                     group by `id_projet`)as B,
                     (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
                     FROM `document`

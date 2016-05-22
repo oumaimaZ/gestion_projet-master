@@ -12,7 +12,7 @@
 
                              $sql = 'SELECT distinct d.* ,p.titre as projets 
                              from document d,projet p,(select id_projet
-                                                       from groupe
+                                                       from privilege
                                                         where username=(select username from user where id_user='.$user_session.'))as A,
                                                       (select id_projet
                                                        from projet
