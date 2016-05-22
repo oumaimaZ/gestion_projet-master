@@ -42,7 +42,7 @@ function triggerProjectModal(id){
 	});
 }
 
-function triggerProjectModal(id){
+function triggerDocumentModal(id){
 	$.ajax({
 		url: 'ajax/getdoc.php?id_doc=' + id,
 		type: 'GET',
@@ -50,13 +50,13 @@ function triggerProjectModal(id){
 
 			var parsed = JSON.parse(data);
 
+			document.getElementById('hiddenid').value = parsed.id_doc;
 			document.getElementById('titred').value = parsed.titre;
 			document.getElementById('descd').value = parsed.description;
-			
-			
-			
-			
-			
+			document.getElementById('projetd').options[document.getElementById('projetd').selectedIndex].value = parsed.projet;
+			document.getElementById('projetd').disabled = true;
+
+
 		}
 	});
 }
