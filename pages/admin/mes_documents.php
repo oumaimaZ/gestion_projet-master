@@ -123,6 +123,17 @@ if(isset($_POST['delete'])){
                     <div class="dataTable_wrapper">
 
                       <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                       <button type="button" class="btn btn-primary"><span class="fa fa-gear"></span> Options </button>
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu text-left" role="menu">
+                        <li><a href="#"><span class="fa fa-envelope pull-right"></span> // </a></li>
+                        <li><a href="#"><span class="fa fa-list pull-right"></span> //  </a></li>
+                        <li class="divider"></li>
+</ul>
+                         <button type="button" class="filtertext">option</button>
                         <thead>
                           <tr>
                             <th>#</th>
@@ -220,7 +231,9 @@ if(isset($_POST['delete'])){
                     <div class="col-sm-8">
                       <select class="form-control"  id="projet" name="projet" placeholder="projet" >
                         <?php
-                        $s = $db->query('SELECT * FROM projet');
+                        $s = $db->query('SELECT distinct * FROM projet p,privilege pr 
+                          where p.id_projet=pr.id_projet and pr.username="'.$_SESSION['username'].'" 
+group by titre');
                         while($row = $s->fetch())
                         {$r=$row['id_projet'];$i=$row['titre'];
                           echo '<option value="'.$r.'">'.$i.'</option>';
