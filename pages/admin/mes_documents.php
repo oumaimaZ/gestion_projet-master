@@ -96,11 +96,21 @@ if(isset($_POST['delete'])){
       $user_session=$_SESSION["id_user"];
       $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
-      $sql = 'SELECT d.*,p.titre as nom_projet,p.id_projet from document d,projet p
-      where d.id_projet=p.id_projet
-      and
-      proprietaire= (SELECT username from user
-        where id_user='.$user_session.')';
+      if(isset($_GET['filtre'])){
+        if($_GET['filtre'] == '1'){
+          $sql = 'SELECT d.*,p.titre as nom_projet,p.id_projet from document d,projet p
+          where d.id_projet=p.id_projet';
+        }else{
+          $sql = 'SELECT d.*,p.titre as nom_projet,p.id_projet from document d,projet p
+          where d.id_projet=p.id_projet
+          and
+          proprietaire= (SELECT username from user
+            where id_user='.$user_session.')';
+        }
+      }else{
+        $sql = 'SELECT d.*,p.titre as nom_projet,p.id_projet from document d,projet p
+        where d.id_projet=p.id_projet';
+      }
 
         $query = $db->prepare($sql);
         $query->execute();
@@ -109,7 +119,18 @@ if(isset($_POST['delete'])){
           <div class="row">
             <div class="col-md-12">
               <h1 class="page-header">Mes documents</h1>
-              <button class="btn btn-primary" data-toggle="modal" data-target="#ajoutDocument"><i class="fa fa-plus-circle"></i> Nouveau document</button>
+              <button class="btn btn-primary col-md-2" data-toggle="modal" data-target="#ajoutDocument"><i class="fa fa-plus-circle"></i> Nouveau document</button>
+              <div class="col-md-10">
+                <form class="form-inline">
+                  <div class="form-group pull-right">
+                    <label for="filtre">Filtre par : </label>
+                      <select id="filtre" class="form-control" onchange="reload();">
+                        <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '1' : '2'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Tous les documents' : 'Mes documents'; else echo 'Tous les documents'; ?></option>
+                        <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '2' : '1'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Mes documents' : 'Tous les documents'; else echo 'Mes documents'; ?> </option>
+                      </select>
+                  </div>
+                </form>
+              </div>
             </div>
             <!-- /.col-lg-12 -->
           </div>
@@ -123,17 +144,7 @@ if(isset($_POST['delete'])){
                     <div class="dataTable_wrapper">
 
                       <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                       <button type="button" class="btn btn-primary"><span class="fa fa-gear"></span> Options </button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul class="dropdown-menu text-left" role="menu">
-                        <li><a href="#"><span class="fa fa-envelope pull-right"></span> // </a></li>
-                        <li><a href="#"><span class="fa fa-list pull-right"></span> //  </a></li>
-                        <li class="divider"></li>
-</ul>
-                         <button type="button" class="filtertext">option</button>
+
                         <thead>
                           <tr>
                             <th>#</th>
@@ -231,8 +242,8 @@ if(isset($_POST['delete'])){
                     <div class="col-sm-8">
                       <select class="form-control"  id="projet" name="projet" placeholder="projet" >
                         <?php
-                        $s = $db->query('SELECT distinct * FROM projet p,privilege pr 
-                          where p.id_projet=pr.id_projet and pr.username="'.$_SESSION['username'].'" 
+                        $s = $db->query('SELECT distinct * FROM projet p,privilege pr
+                          where p.id_projet=pr.id_projet and pr.username="'.$_SESSION['username'].'"
 group by titre');
                         while($row = $s->fetch())
                         {$r=$row['id_projet'];$i=$row['titre'];
@@ -339,6 +350,14 @@ group by titre');
           echo "</td>";
 
           echo "<td align='center'>".$ligne['description']."</td>";
-
+          ?>
+          <script>
+            function reload(){
+              $(document).ready(function(){
+                document.location.href = "mes_documents.php?filtre=" + document.getElementById('filtre').value;
+              });
+            }
+          </script>
+          <?php
           include 'includes/footer.php';
           ?>
