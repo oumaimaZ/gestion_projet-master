@@ -126,7 +126,7 @@ if(isset($_POST['delete'])){
                     <label for="filtre">Filtre par : </label>
                       <select id="filtre" class="form-control" onchange="reload();">
                         <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '1' : '2'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Tous les documents' : 'Mes documents'; else echo 'Tous les documents'; ?></option>
-                        <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '2' : '1'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Mes documents' : 'Tous les documents'; else echo 'Mes documents'; ?> </option>
+                        <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '2' : '1'; else echo '2'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Mes documents' : 'Tous les documents'; else echo 'Mes documents'; ?> </option>
                       </select>
                   </div>
                 </form>
