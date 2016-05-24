@@ -93,55 +93,34 @@ $user_session=$_SESSION["id_user"];
                         <li class="divider"></li>
                        <?php }?>
                       </ul>
-                    </div>
-                    
-                </div>
-            </div>
-       </div>                 
+                    </div></div>
+            </div></div>                 
     </div>
-  </div>
+                    <!--sortable ----------------------------------------------------------------------------- -->
+                    
+                     <div class="row grid span8 col-xs-12 col-sm-4 ">
+    <div class="well span2 ">A</div>
+    <div class="well span2 ">B</div>
+    <div class="well span2 ">C</div>
+    <div class="well span4 ">D</div>
 </div>
-                    </div>
-                  </form>
-              </div>
-
-          </div>
-
-      </div>
-
-                   
-
-
-
-
-
-
-
-
-
-
-
-                  </form>
-              </div>
-
-          </div>
-
-      
-<!--panel 2-->
-
-
-
-
-      <div class="col-lg-12">
-          <div class="panel panel-default">
-              <div class="panel-body">
-                <form action="index.php" method="POST">
-                   <div class="form-group">
-                   <div class="container">
-    <div class="row">
+<script type="text/javascript">$(function () {
+    $(".grid").sortable({
+        tolerance: 'pointer',
+        revert: 'invalid',
+        placeholder: 'span2 well placeholder ',
+        forceHelperSize: true
+    });
+});
+</script>
+<!--sortable ----------------------------------------------------------------------------- -->
+                
+       <!------------------------------ PANNNNNEEEEEELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL -------------------------------------->
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">
+                
+
+<div class="panel-heading">
                     <span class="glyphicon glyphicon-list"></span>notifications 
                     <div class="pull-right action-buttons">
                         <div class="btn-group pull-right">
@@ -156,8 +135,10 @@ $user_session=$_SESSION["id_user"];
                         </div>
                     </div>
                 </div>
+
+
                 <div class="panel-body">
-                    <ul class="list-group">
+                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="checkbox">
                                 <input type="checkbox" id="checkbox" />
@@ -243,10 +224,65 @@ $user_session=$_SESSION["id_user"];
                             </ul>
                         </div>
                     </div>
-                </div>
+  </div></div>
             </div>
         </div>
-    </div>
+        <style type="text/css">.clickable{    cursor: pointer;
+}.clickable .glyphicon{    background: rgba(0, 0, 0, 0.15);    display: inline-block;    padding: 6px 12px;    border-radius: 4px}
+.panel-heading span{    margin-top: -23px;    font-size: 15px;    margin-right: -9px;}a.clickable { color: inherit; }a.clickable:hover { text-decoration:none; }</style>
+<script >$(document).on('click', '.panel-heading span.clickable', function (e) {
+    var $this = $(this);
+    if (!$this.hasClass('panel-collapsed')) {
+        $this.parents('.panel').find('.panel-body').slideUp();
+        $this.addClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+    } else {
+        $this.parents('.panel').find('.panel-body').slideDown();
+        $this.removeClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+    }
+});
+$(document).on('click', '.panel div.clickable', function (e) {
+    var $this = $(this);
+    if (!$this.hasClass('panel-collapsed')) {
+        $this.parents('.panel').find('.panel-body').slideUp();
+        $this.addClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+    } else {
+        $this.parents('.panel').find('.panel-body').slideDown();
+        $this.removeClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+    }
+});
+$(document).ready(function () {
+    $('.panel-heading span.clickable').click();
+    $('.panel div.clickable').click();
+});</script>
+
+
+<!------------------------------ PANNNNNEEEEEELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL -------------------------------------->
+  
+
+
+
+
+
+
+
+
+            
+      
+<!--panel 2-->
+
+
+
+     
+
+
+
+
+
+
    
 <!-- Small modal -->
  <div id="psw" class="modal fade" role="dialog">

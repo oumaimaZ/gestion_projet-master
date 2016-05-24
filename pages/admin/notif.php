@@ -118,6 +118,55 @@ $(document).ready(function () {
         <div class="col-md-10">
           <h1 class="page-header">Mes projets</h1>
 
+
+
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Panel 1</h3>
+                    <span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
+                </div>
+                <div class="panel-body">
+                    Panel content</div>
+            </div>
+        </div>
+        <style type="text/css">.clickable{    cursor: pointer;
+}.clickable .glyphicon{    background: rgba(0, 0, 0, 0.15);    display: inline-block;    padding: 6px 12px;    border-radius: 4px}
+.panel-heading span{    margin-top: -23px;    font-size: 15px;    margin-right: -9px;}a.clickable { color: inherit; }a.clickable:hover { text-decoration:none; }</style>
+<script >$(document).on('click', '.panel-heading span.clickable', function (e) {
+    var $this = $(this);
+    if (!$this.hasClass('panel-collapsed')) {
+        $this.parents('.panel').find('.panel-body').slideUp();
+        $this.addClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+    } else {
+        $this.parents('.panel').find('.panel-body').slideDown();
+        $this.removeClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+    }
+});
+$(document).on('click', '.panel div.clickable', function (e) {
+    var $this = $(this);
+    if (!$this.hasClass('panel-collapsed')) {
+        $this.parents('.panel').find('.panel-body').slideUp();
+        $this.addClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+    } else {
+        $this.parents('.panel').find('.panel-body').slideDown();
+        $this.removeClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+    }
+});
+$(document).ready(function () {
+    $('.panel-heading span.clickable').click();
+    $('.panel div.clickable').click();
+});</script>
+
+
+
+
+
 <div class="container">
 <div class="stepwizard">
     <div class=" col-xs-8  stepwizard-row setup-panel">

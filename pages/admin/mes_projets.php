@@ -59,13 +59,35 @@ if (isset($_POST['modifier'])){
     $query2->execute(); */
   }
   ?>
+<?php
 
-  <?php
-  
-  $user_session=$_SESSION["id_user"];
-  $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
+      $user_session=$_SESSION["id_user"];
+      $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
-  $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
+      if(isset($_GET['filtre'])){
+        if($_GET['filtre'] == '1'){
+          $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
+  FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username`
+                    FROM privilege 
+                    group by `id_projet`)as B,
+                    (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
+                    FROM `document`
+                    group by id_projet) as C,
+                    (SELECT`id_projet`,count(id_tache) as nbt
+                    FROM tache
+                    group by `id_projet`)as D,
+                    (SELECT `id_projet`,`progression`
+                      FROM tache
+                                      group by `id_projet`)as E
+
+                    WHERE B.`id_projet`=p.`id_projet`
+                    and C.`id_projet`=p.`id_projet`
+                    and D.`id_projet`=p.`id_projet`
+                    and E.`id_projet`=p.`id_projet`
+                    and p.username=(select username from user where id_user='.$user_session.')
+                    or B.username=(select username from user where id_user='.$user_session.')
+                    group by `id_projet`';
+    }else{       $sql ='SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
   FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username`
                     FROM privilege
                     group by `id_projet`)as B,
@@ -79,24 +101,57 @@ if (isset($_POST['modifier'])){
                       FROM tache
                       group by `id_projet`)as E
 
-    WHERE B.`id_projet`=p.`id_projet`
-    and C.`id_projet`=p.`id_projet`
-    and D.`id_projet`=p.`id_projet`
-    and E.`id_projet`=p.`id_projet`
-    and p.username=(select username from user where id_user='.$user_session.')
+                    WHERE B.`id_projet`=p.`id_projet`
+                    and C.`id_projet`=p.`id_projet`
+                    and D.`id_projet`=p.`id_projet`
+                    and E.`id_projet`=p.`id_projet`
+                    and p.username=(select username from user where id_user='.$user_session.')
+                    group by `id_projet`';
+        }
+      }else{
+        $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
+  FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username`
+                    FROM privilege 
+                    group by `id_projet`)as B,
+                    (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
+                    FROM `document`
+                    group by id_projet) as C,
+                    (SELECT`id_projet`,count(id_tache) as nbt
+                    FROM tache
+                    group by `id_projet`)as D,
+                    (SELECT `id_projet`,`progression`
+                      FROM tache
+                      group by `id_projet`)as E
 
-    group by `id_projet`';
+                      WHERE B.`id_projet`=p.`id_projet`
+                      and C.`id_projet`=p.`id_projet`
+                      and D.`id_projet`=p.`id_projet`
+                      and E.`id_projet`=p.`id_projet`
+                      and p.username=(select username from user where id_user='.$user_session.')
+                   
+                      group by `id_projet`';
+                    }
 
-    $query = $db->prepare($sql);
-    $query->execute();
-
-    ?>
+        $query = $db->prepare($sql);
+        $query->execute();
+        ?>
 
     <div id="page-wrapper">
       <div class="row">
         <div class="col-md-12">
           <h1 class="page-header">Mes projets</h1>
           <button class="btn btn-primary" data-toggle="modal" data-target="#ajoutprojet"><i class="fa fa-plus-circle"></i> Nouveau Projet</button>
+       <div class="col-md-10">
+                <form class="form-inline">
+                  <div class="form-group pull-right">
+                    <label for="filtre">Filtre par : </label>
+                      <select id="filtre" class="form-control" onchange="reload();">
+                        <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '1' : '2'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Tous les projets' : 'Mes projets'; else echo 'Tous mes projets'; ?></option>
+                        <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '2' : '1'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Mes projets' : 'Tous les projets'; else echo 'Mes projets'; ?> </option>
+                      </select>
+                  </div>
+                </form>
+              </div>
         </div>
         <!-- /.col-lg-12 -->
       </div>
@@ -136,7 +191,7 @@ if (isset($_POST['modifier'])){
                       echo "<td align='center'>".$ligne['date_creation']."</td>";
                       echo "<td align='center'>".$ligne['date_butoir']."</td>";
                       echo "<td align='center'>".$ligne['description']."</td>";
-                      echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier" onclick="triggerProjectModal('.$ligne['id_projet'].');"></a></td>';
+                      echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier_projet" onclick="triggerDocumentModal('.$ligne['id_projet'].');"></a></td>';
                       echo "</tr>";
                     }
                     ?>
@@ -161,10 +216,10 @@ if (isset($_POST['modifier'])){
 
                     <!-- Modal content-->
                     <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" name="creer" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Nouveau Projet</h4>
-                      </div>
+                          <div class="modal-header">
+                            <button type="button" name="creer" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Nouveau Projet</h4>
+                          </div>
                       <div class="modal-body">
                         <form class="form-horizontal" role="form" action="mes_projets.php" method="POST">
 
@@ -194,116 +249,23 @@ if (isset($_POST['modifier'])){
                               <textarea class="form-control" id="desc" name="desc" /></textarea>
                             </div>
                           </div>
-
-                           
-
-
                           <div class="form-group">
                             <div class="col-sm-12">
                               <button class=" btn btn-primary pull-right" data-toggle="modal"name="submit" id="submit"data-target="#ajoutprivilege">créer</button>
-
-                 <!--end of modal -->
+                            </div>
+                          </div>
+                 
           </form>
-
         </div>
-        <!-- /.col-lg-12 -->
-      </div>
-      <!-- /.row -->
-      <!-- Modal -->
-      <div id="ajoutprojet" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" name="creer" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Nouveau Projet</h4>
-            </div>
-            <div class="modal-body">
-              <form class="form-horizontal" role="form" action="mes_projets.php" method="POST">
-
-                <div class="form-group">
-                  <label  class="col-sm-2 control-label" for="titre">Titre du projet</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="titre" name="titre" placeholder="Projet"/>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label  class="col-sm-2 control-label" for="titre">Date butoir</label>
-                  <div class="col-sm-10">
-                    <input type="Date" class="form-control" id="db" name="db" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label  class="col-sm-2 control-label" for="participant">participant</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="participant" name="participant" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label  class="col-sm-2 control-label" for="titre">Description</label>
-                  <div class="col-sm-10">
-                    <textarea class="form-control" id="desc" name="desc" /></textarea>
-                  </div>
-                </div>
-
-
-
-
-                <div class="form-group">
-                  <div class="col-sm-12">
-                    <button class="b btn btn-primary pull-right" data-toggle="modal" data-target="#ajoutprivilege">créer</button>
-
-                    <!--end of modal -->
-                  </form>
-                </div>
-              </div>
-
-            </div>
-          </div>
         </div>
       </div>
-      <!-- Modal -->
-      <div id="ajoutprivilege" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class=" modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">affectation des priviléges</h4>
-            </div>
-            <div class="modal-body">
-              <form class="form-horizontal" role="form">
-                <div class="modal-body">
-                  <form class="form-horizontal" role="form" action="mes_projets.php" method="POST">
-
-
-                    <div class="a1 form-group">
-                      <script type="text/javascript">
-                      $('.b').click(function(){
-                        var b= $(this).val();
-                        $.post('ajax/privilege_projet.php',{val:b},function(result){
-                          $('.a1').html(result)
-                        });
-                      });
-
-                      </script>
-
-                    </form>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <!-- end Modal -->
+      </div>
+      <!--**************************************end of modal ajout projet *********************************** -->
+      
+     
 
         <!-- Modal -->
-        <div id="modifier" class="modal fade" role="dialog">
+        <div id="modifier_projet" class="modal fade" role="dialog">
           <div class="modal-dialog">
             <form class="form-horizontal" role="form" action="mes_projets.php" method="POST">
 
@@ -404,7 +366,13 @@ if (isset($_POST['modifier'])){
       });
       </script>
 
-
+ <script>
+            function reload(){
+              $(document).ready(function(){
+                document.location.href = "mes_projets.php?filtre=" + document.getElementById('filtre').value;
+              });
+            }
+          </script>
       <?php
       include 'includes/footer.php';
       ?>

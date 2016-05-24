@@ -118,9 +118,9 @@ if(isset($_POST['delete'])){
         <div id="page-wrapper">
           <div class="row">
             <div class="col-md-12">
-              <h1 class="page-header">Mes documents</h1>
+              <h1 class="page-header">Documents</h1>
               <button class="btn btn-primary col-md-2" data-toggle="modal" data-target="#ajoutDocument"><i class="fa fa-plus-circle"></i> Nouveau document</button>
-              <div class="col-md-10">
+              <div class="col-md-5">
                 <form class="form-inline">
                   <div class="form-group pull-right">
                     <label for="filtre">Filtre par : </label>
@@ -325,32 +325,8 @@ group by titre');
 
 
           <!-- END MODAL-->
-          <?php
-          $nom=$ligne['nom_fichier'];
-
-
-
-          if($dossier = opendir('./bibliotheque'))
-          {
-            while(false !== ($fichier = readdir($dossier)))
-            {
-
-              if($fichier != '.' && $fichier != '..' && $fichier != 'mes_documents.php')
-              {
-                if( $fichier = basename($nom,".pdf").PHP_EOL)
-                echo '<a href="./bibliotheque/' . $fichier . '">' . $fichier . '</a>';break;
-              }
-
-            }
-            closedir($dossier);
-          }
-
-          else
-          echo 'Le dossier n\' a pas pu être ouvert';
-          echo "</td>";
-
-          echo "<td align='center'>".$ligne['description']."</td>";
-          ?>
+          
+          
           <script>
             function reload(){
               $(document).ready(function(){

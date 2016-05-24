@@ -7,16 +7,12 @@
                         </li>
                        
                         <li>
-                            <a href="mes_documents.php"><i class="fa fa-file-text fa-fw"></i> Mes documents</a>
+                            <a href="mes_documents.php"><i class="fa fa-file-text fa-fw"></i> Documents</a>
                         </li>
-                         <li>
-                            <a href="documents.php"><i class="fa fa-file-text fa-fw"></i>Documents</a>
-                        </li>
-                         <li>
-                            <a href="projet.php"><i class="fa fa-paperclip fa-fw"></i> Projets</a>
-                        </li>
+                        
+                        
                           <li>
-                            <a href="mes_projets.php"><i class="fa fa-paperclip fa-fw"></i>Mes Projets</a>
+                            <a href="mes_projets.php"><i class="fa fa-paperclip fa-fw"></i>Projets</a>
                         </li>
                         <li>
                             <a href="taches.php"><i class="fa fa-tasks fa-fw"></i>Taches </a>

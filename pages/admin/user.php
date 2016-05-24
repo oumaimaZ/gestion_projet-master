@@ -124,6 +124,7 @@
                                   <th>Username</th>
                                   <th>telephone</th>
                                   <th>e_mail</th>
+                                  <th>privilege</th>
                                   <th>éditer (éditer privilége)</th>
                               </tr>
                           </thead>
@@ -131,13 +132,19 @@
                               <?php
                               while($ligne = $query->fetch())
                                 {
-
+                                   if($ligne['priv_projet'] = '1,2,3,4'and $ligne['priv_user'] = '1,2,3,4'
+                                  and $ligne['priv_event'] = '1,2,3,4'and $ligne['priv_tache'] = '1,2,3,4'
+                                  and $ligne['priv_doc'] = '1,2,3,4')
+                                  { $priv= 'administrateur';}
+                      else {$priv='membre';}
+                     
                                   echo "<tr>";
                                   echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_user']."'>"."</td>";
 
                                   echo "<td align='center'>".$ligne['username']."</td>";
                                 echo "<td align='center'>".$ligne['telephone']."</td>";
                                   echo "<td align='center'>".$ligne['email']."</td>";
+                                  echo "<td align='center'>".$priv."</td>";
                                  echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier_user" onclick="triggerModal('.$ligne['id_user'].');"></a></td>';
                                    echo "</tr>";
                                 }

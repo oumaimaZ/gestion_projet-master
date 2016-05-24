@@ -143,7 +143,7 @@
 
                                   echo "<td align='center'>".$ligne['username']."</td>";
                                   echo "<td align='center'>".$role."</td>";
-                                  echo "<td align='center'>".$ligne['service-division']."</td>";
+                                  
                                   echo "<td align='center'>".$ligne['direction']."</td>";
                                   echo "<td align='center'>".$ligne['email']."</td>";
                                    echo "<td align='center'>".$ligne['telephone']."</td>";
@@ -158,6 +158,33 @@
                   <!-- /.table-responsive -->
                 </form>
               </div>
+              <div class="row grid span8">
+    <div class="well span2 tile">A</div>
+    <div class="well span2 tile">B</div>
+    <div class="well span2 tile">C</div>
+    <div class="well span4 tile">D</div>
+</div><style type="text/css">.placeholder {
+    border: 1px solid green;
+    background-color: white;
+    -webkit-box-shadow: 0px 0px 10px #888;
+    -moz-box-shadow: 0px 0px 10px #888;
+    box-shadow: 0px 0px 10px #888;
+}
+.tile {
+    height: 100px;
+}
+.grid {
+    margin-top: 1em;
+}</style>
+<script type="text/javascript">$(function () {
+    $(".grid").sortable({
+        tolerance: 'pointer',
+        revert: 'invalid',
+        placeholder: 'span2 well placeholder tile',
+        forceHelperSize: true
+    });
+});
+</script>
               <!-- /.panel-body -->
           </div>
           <!-- /.panel -->

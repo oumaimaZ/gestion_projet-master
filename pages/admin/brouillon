@@ -1,0 +1,127 @@
+
+select p.id_projet,p.titre,p.username from projet p
+inner join privilege pr on p.id_projet=pr.id_projet inner join user u on u.username=pr.username where pr.username='admin'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="form-group">
+                   <?php
+                              while($ligne = $query1->fetch())
+                                { ?>
+                      <label  class="col-sm-2 control-label" for="nom">Nom</label>
+                      <div class="col-xs-4">  <p><?php ECHO $ligne['nom'];?></p></div>
+                      <label  class="col-sm-2 control-label" for="email">e_mail</label>
+                      <div class="col-xs-4"> <p><?php ECHO $ligne['email'];?></p></div>
+                    </div>
+                    <div class="form-group">
+                      <label  class="col-sm-2 control-label" for="prenom">prenom</label>
+                      <div class="col-xs-4">
+                     <p><?php
+                      ECHO $ligne['prenom'];
+                      ?></p>
+                       </div>
+
+                      <label  class="col-sm-2 control-label" for="telephone">telephone</label>
+                      <div class="col-xs-4">
+                     <p><?php
+                      ECHO $ligne['telephone'];
+                      ?></p>
+                       </div>
+
+                        <label  class="col-sm-2 control-label" for="username">username</label>
+                      <div class="col-xs-4">
+                      <p><?php
+                      ECHO $ligne['username'];
+                      ?></p>
+                       </div>
+                    </div>
+                    <div class="form-group">
+
+                      <label  class="col-sm-2 control-label" for="adresse">Adresse</label>
+                      <div class="col-xs-4">
+                     <p><?php
+                      ECHO $ligne['adresse'];
+                      ?></p></br>
+                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label  class="col-sm-2 control-label" for="divison">mot de passe</label>
+                      <div class="col-xs-4">
+                     <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#psw">
+                        <a href="javascript:validateField();" class="theme-color accountFormToggleBtn display-block">click here to change your password</a>
+                      </button> </div>
+                      <label  class="col-sm-2 control-label" for="prenom">Direction</label>
+                      <div class="col-xs-4">
+                      <p><?php
+                      ECHO $ligne['direction'];
+                      ?></p>
+                       </div>
+                    </div>
+                        <div class="form-group">
+                      <label  class="col-sm-2 control-label" for="divison">privilege </label>
+                      <div class="col-xs-4">
+                      <p><?php
+
+                          ECHO $ligne['priv_document'].$ligne['priv_tache'].$ligne['priv_event'].$ligne['priv_notif'].$ligne['priv_user'];
+                       }?>
+                       </p></br>
+                       </div>
+                       <label  class="col-sm-2 control-label" for="divison">Division</label>
+                      <div class="col-xs-4">
+                      <p><?php
+                      ECHO $ligne['division'];
+                      ?></p>
+                       </div>
+                    </div>
+
+
+
+
+
+
+   <div id="ajoutprivilege" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class=" modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">affectation des priviléges</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" role="form">
+                <div class="modal-body">
+                  <form class="form-horizontal" role="form" action="mes_projets.php" method="POST">
+
+
+                    <div class="a1 form-group">
+                      <script type="text/javascript">
+                      $('.b').click(function(){
+                        var b= $(this).val();
+                        $.post('ajax/privilege_projet.php',{val:b},function(result){
+                          $('.a1').html(result)
+                        });
+                      });
+
+                      </script>
+
+                    </form>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- end Modal -->
