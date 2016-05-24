@@ -9,7 +9,7 @@
 		'id_user' => $row['id_user'],
 		'nom' => $row['nom'],
 		'prenom' => $row['prenom'],
-		'service' => $row['service-division'],
+		'service' => $row['division'],
 		'direction' => $row['direction'],
 		'telephone' => $row['telephone'],
 		'email' => $row['email'],

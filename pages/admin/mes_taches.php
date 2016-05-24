@@ -4,11 +4,8 @@
 
 ?>
 
-      
-  
-
 <?php
-  
+
 
  $user_session=$_SESSION["id_user"];
 $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
@@ -44,12 +41,12 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
           <div class="panel panel-default">
               <div class="panel-body">
                   <div class="dataTable_wrapper">
-                     
-                          
+
+
 <h4> liste des projets </h4>
               <div class="panel-body">
               <div class="form-group">
-              <div class="col-sm-8" > 
+              <div class="col-sm-8" >
               <div class="list-group">
                    <?php
                               while($ligne = $query->fetch())
@@ -63,7 +60,7 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
               </div>
               </div>
               </div>
-                      
+
                   </div>
                   <!-- /.table-responsive -->
               </div>
@@ -90,9 +87,9 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
              <div class="modal-body">
           <form class="form-horizontal" role="form" action="mes_taches.php" method="POST">
 
-            
+
             <div class="a1 form-group">
-            
+
 
             </form>
             </div>
@@ -122,5 +119,4 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
   });
 
 </script>
-      <!-- END MODAL--> 
-           
+      <!-- END MODAL-->
