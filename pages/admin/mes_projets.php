@@ -66,70 +66,49 @@ if (isset($_POST['modifier'])){
 
       if(isset($_GET['filtre'])){
         if($_GET['filtre'] == '1'){
-          $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
-  FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username`
-                    FROM privilege 
-                    group by `id_projet`)as B,
-                    (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
-                    FROM `document`
-                    group by id_projet) as C,
-                    (SELECT`id_projet`,count(id_tache) as nbt
+          $sql = 'SELECT p.*,p.username as proprietaire,(sum(E.progression)/D.nbt) as statut
+  FROM `projet`p ,(SELECT`id_projet`,count(id_tache) as nbt
                     FROM tache
                     group by `id_projet`)as D,
                     (SELECT `id_projet`,`progression`
                       FROM tache
-                                      group by `id_projet`)as E
+                    group by `id_projet`)as E
 
-                    WHERE B.`id_projet`=p.`id_projet`
-                    and C.`id_projet`=p.`id_projet`
-                    and D.`id_projet`=p.`id_projet`
+                    WHERE 
+                     D.`id_projet`=p.`id_projet`
                     and E.`id_projet`=p.`id_projet`
                     and p.username=(select username from user where id_user='.$user_session.')
                     or B.username=(select username from user where id_user='.$user_session.')
                     group by `id_projet`';
-    }else{       $sql ='SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
-  FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username`
-                    FROM privilege
-                    group by `id_projet`)as B,
-                    (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
-                    FROM `document`
-                    group by id_projet) as C,
-                    (SELECT`id_projet`,count(id_tache) as nbt
+    }else{       $sql ='SELECT p.*,p.username as proprietaire,(sum(E.progression)/D.nbt) as statut
+  FROM `projet`p ,(SELECT`id_projet`,count(id_tache) as nbt
                     FROM tache
                     group by `id_projet`)as D,
                     (SELECT `id_projet`,`progression`
                       FROM tache
-                      group by `id_projet`)as E
+                    group by `id_projet`)as E
 
-                    WHERE B.`id_projet`=p.`id_projet`
-                    and C.`id_projet`=p.`id_projet`
-                    and D.`id_projet`=p.`id_projet`
+                    WHERE 
+                     D.`id_projet`=p.`id_projet`
                     and E.`id_projet`=p.`id_projet`
                     and p.username=(select username from user where id_user='.$user_session.')
                     group by `id_projet`';
         }
       }else{
-        $sql = 'SELECT p.*,p.username as proprietaire,B.nbm  ,C.nbd,B.username,(sum(E.progression)/D.nbt) as statut,D.nbt
-  FROM `projet`p ,(SELECT `id_projet`,count(`username`) as nbm, `username`
-                    FROM privilege 
-                    group by `id_projet`)as B,
-                    (SELECT `id_projet`,`id_doc` ,count(`id_doc`) as nbd
-                    FROM `document`
-                    group by id_projet) as C,
-                    (SELECT`id_projet`,count(id_tache) as nbt
+        $sql = 'SELECT p.*,p.username as proprietaire,(sum(E.progression)/D.nbt) as statut
+  FROM `projet`p ,(SELECT`id_projet`,count(id_tache) as nbt
                     FROM tache
                     group by `id_projet`)as D,
                     (SELECT `id_projet`,`progression`
                       FROM tache
-                      group by `id_projet`)as E
+                    group by `id_projet`)as E
 
-                      WHERE B.`id_projet`=p.`id_projet`
-                      and C.`id_projet`=p.`id_projet`
-                      and D.`id_projet`=p.`id_projet`
-                      and E.`id_projet`=p.`id_projet`
-                      and p.username=(select username from user where id_user='.$user_session.')
-                   
-                      group by `id_projet`';
+                    WHERE 
+                     D.`id_projet`=p.`id_projet`
+                    and E.`id_projet`=p.`id_projet`
+                    and p.username=(select username from user where id_user='.$user_session.')
+                    or B.username=(select username from user where id_user='.$user_session.')
+                    group by `id_projet`';
                     }
 
         $query = $db->prepare($sql);
@@ -147,7 +126,7 @@ if (isset($_POST['modifier'])){
                     <label for="filtre">Filtre par : </label>
                       <select id="filtre" class="form-control" onchange="reload();">
                         <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '1' : '2'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Tous les projets' : 'Mes projets'; else echo 'Tous mes projets'; ?></option>
-                        <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '2' : '1'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Mes projets' : 'Tous les projets'; else echo 'Mes projets'; ?> </option>
+                        <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '2' : '1'; else echo '2'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Mes projets' : 'Tous les projets'; else echo 'Mes projets'; ?> </option>
                       </select>
                   </div>
                 </form>
@@ -166,7 +145,7 @@ if (isset($_POST['modifier'])){
                       <th>#</th>
                       <th>nom du projet </th>
                       <th>proprietaire</th>
-                      <th>détails    </th>
+                     
                       <th>statut  </th>
                       <th>date de création</th>
                       <th>date butoir</th>
@@ -178,7 +157,7 @@ if (isset($_POST['modifier'])){
                     <?php
                     while($ligne = $query->fetch())
                     {
-                      $doc="docs /" ;$user="users /";$tache="taches";
+                     
                       if($ligne['statut'] < '10') $stat= 'ouvert';
                       else if($ligne['statut'] > '11') $stat= 'en cours';
                       else if($ligne['statut'] > '98') $stat='achevé';
@@ -186,7 +165,6 @@ if (isset($_POST['modifier'])){
                       echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_projet']."'>"."</td>";
                       echo "<td align='center'>".$ligne['titre']."</td>";
                       echo "<td align='center'>".$ligne['proprietaire']."</td>";
-                      echo "<td align='center'>".$ligne['nbm'].$user.$ligne['nbd'].$doc.$ligne['nbt'].$tache."</td>";
                       echo "<td align='center'>".$stat."</td>";
                       echo "<td align='center'>".$ligne['date_creation']."</td>";
                       echo "<td align='center'>".$ligne['date_butoir']."</td>";
