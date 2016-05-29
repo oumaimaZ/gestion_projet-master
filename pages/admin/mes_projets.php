@@ -41,8 +41,7 @@ if (isset($_POST['modifier'])){
   // $membre=$_POST['membreM'];
   $desc=$_POST['descM'];
   $date=$_POST['dbM'];
-  $datec=$_POST['dcM'];
-  $s=$_POST['statutM'];
+
   $idp=$_POST['id_projet'];
   // $idu=$_POST['id_user'];
   $query = $db->prepare('UPDATE projet
@@ -70,7 +69,7 @@ if (isset($_POST['modifier'])){
   FROM `projet`p ,(SELECT`id_projet`,count(id_tache) as nbt
                     FROM tache
                     group by `id_projet`)as D,
-                    (SELECT `id_projet`,`progression`
+                    (SELECT `id_projet`,`progression`,username
                       FROM tache
                     group by `id_projet`)as E
 
@@ -78,7 +77,7 @@ if (isset($_POST['modifier'])){
                      D.`id_projet`=p.`id_projet`
                     and E.`id_projet`=p.`id_projet`
                     and p.username=(select username from user where id_user='.$user_session.')
-                    or B.username=(select username from user where id_user='.$user_session.')
+                    or E.username=(select username from user where id_user='.$user_session.')
                     group by `id_projet`';
     }else{       $sql ='SELECT p.*,p.username as proprietaire,(sum(E.progression)/D.nbt) as statut
   FROM `projet`p ,(SELECT`id_projet`,count(id_tache) as nbt
@@ -99,7 +98,7 @@ if (isset($_POST['modifier'])){
   FROM `projet`p ,(SELECT`id_projet`,count(id_tache) as nbt
                     FROM tache
                     group by `id_projet`)as D,
-                    (SELECT `id_projet`,`progression`
+                    (SELECT `id_projet`,`progression`,username
                       FROM tache
                     group by `id_projet`)as E
 
@@ -107,7 +106,7 @@ if (isset($_POST['modifier'])){
                      D.`id_projet`=p.`id_projet`
                     and E.`id_projet`=p.`id_projet`
                     and p.username=(select username from user where id_user='.$user_session.')
-                    or B.username=(select username from user where id_user='.$user_session.')
+                    or E.username=(select username from user where id_user='.$user_session.')
                     group by `id_projet`';
                     }
 
@@ -120,9 +119,9 @@ if (isset($_POST['modifier'])){
         <div class="col-md-12">
           <h1 class="page-header">Mes projets</h1>
           <button class="btn btn-primary" data-toggle="modal" data-target="#ajoutprojet"><i class="fa fa-plus-circle"></i> Nouveau Projet</button>
-       <div class="col-md-10">
+       
                 <form class="form-inline">
-                  <div class="form-group pull-right">
+                  <div class="col-md-6 form-group pull-right">
                     <label for="filtre">Filtre par : </label>
                       <select id="filtre" class="form-control" onchange="reload();">
                         <option value="<?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? '1' : '2'; else echo '1'; ?>"><?php if(isset($_GET['filtre'])) echo ($_GET['filtre'] == '1') ? 'Tous les projets' : 'Mes projets'; else echo 'Tous mes projets'; ?></option>
@@ -130,7 +129,7 @@ if (isset($_POST['modifier'])){
                       </select>
                   </div>
                 </form>
-              </div>
+             
         </div>
         <!-- /.col-lg-12 -->
       </div>
@@ -148,9 +147,9 @@ if (isset($_POST['modifier'])){
                      
                       <th>statut  </th>
                       <th>date de création</th>
-                      <th>date butoir</th>
-                      <th>description</th>
+                     
                       <th>modifier</th>
+                      <th>détails </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -158,19 +157,19 @@ if (isset($_POST['modifier'])){
                     while($ligne = $query->fetch())
                     {
                      
-                      if($ligne['statut'] < '10') $stat= 'ouvert';
-                      else if($ligne['statut'] > '11') $stat= 'en cours';
-                      else if($ligne['statut'] > '98') $stat='achevé';
-                      echo "<tr>";
-                      echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_projet']."'>"."</td>";
-                      echo "<td align='center'>".$ligne['titre']."</td>";
-                      echo "<td align='center'>".$ligne['proprietaire']."</td>";
-                      echo "<td align='center'>".$stat."</td>";
-                      echo "<td align='center'>".$ligne['date_creation']."</td>";
-                      echo "<td align='center'>".$ligne['date_butoir']."</td>";
-                      echo "<td align='center'>".$ligne['description']."</td>";
-                      echo'<td align="center"><a class="menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier_projet" onclick="triggerDocumentModal('.$ligne['id_projet'].');"></a></td>';
-                      echo "</tr>";
+  if($ligne['statut'] < '10') $stat= 'ouvert';
+  else if($ligne['statut'] > '11') $stat= 'en cours';
+  else if($ligne['statut'] > '98') $stat='achevé';
+  echo "<tr>";
+  echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_projet']."'>"."</td>";
+  echo "<td align='center'>".$ligne['titre']."</td>";
+  echo "<td align='center'>".$ligne['proprietaire']."</td>";
+  echo "<td align='center'>".$stat."</td>";
+  echo "<td align='center'>".$ligne['date_creation']."</td>";
+ 
+  echo'<td align="center"><a class=" menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier_projet" onclick="triggerDocumentModal('.$ligne['id_projet'].' );"></a></td>';
+  echo '<td align="center"><button class="b btn btn-sm btn-warning" data-toggle="modal" data-target="#detail_projet" value='.$ligne['id_projet'].' >details</a></td>';
+  echo "</tr>";
                     }
                     ?>
                   </tbody>
@@ -178,17 +177,31 @@ if (isset($_POST['modifier'])){
                 </table>
                 <input class="btn btn-danger" type="submit" name="delete" value="Supprimer">
               </div>
-              <!-- /.table-responsive -->
-            </div>
-            <!-- /.panel-body -->
-          </div>
-          <!-- /.panel -->
+                 </div>
+                  </div>
+           </div>
+     </div>
+<!-- Modaldetail -->
+<div id="detail_projet" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
 
-      </div>
-      <!-- /.col-lg-12 -->
-  </div>
-  <!-- /.row -->
-   <!-- Modal -->
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <form class='form-horizontal' role='form'  action='mes_projets.php' method='POST'>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+<div class='detail'></div>
+  </form>
+</div>
+</div>
+</div>
+</div>
+
+<!-- - -end of modal detail- -->
+
+<!--modal detail-->
+
+     <!-- Modal -->
                 <div id="ajoutprojet" class="modal fade" role="dialog">
                   <div class="modal-dialog">
 
@@ -276,18 +289,8 @@ if (isset($_POST['modifier'])){
                       <input type="text" class="form-control" id="membreM" name="membreM" />
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label  class="col-sm-2 control-label" for="titre">Date de création</label>
-                    <div class="col-sm-10">
-                      <input type="Date" class="form-control" id="dcM" name="dcM" />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label  class="col-sm-2 control-label" for="titre">Date de réalisation</label>
-                    <div class="col-sm-10">
-                      <input type="Date" class="form-control" id="drM" name="drM" />
-                    </div>
-                  </div>
+                  
+                  
                   <div class="form-group">
                     <label  class="col-sm-2 control-label" for="titre">Date butoir</label>
                     <div class="col-sm-10">
@@ -351,6 +354,16 @@ if (isset($_POST['modifier'])){
               });
             }
           </script>
+          <script type="text/javascript">
+  $('.b').click(function(){
+    var b= $(this).val();
+    $.post('modals/detail_projet.php',{val:b},function(result){
+        $('.detail').html(result)
+    });
+  });
+
+</script>
       <?php
+      
       include 'includes/footer.php';
       ?>

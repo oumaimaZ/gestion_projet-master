@@ -1,7 +1,7 @@
 <?php
 	$db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 	$p=$_POST['val'];
-//$u=$_GET['id_user'];
+
 $query = $db->prepare('SELECT t.* FROM `tache` t WHERE t.id_projet ='.$p);
 
 	$query->execute();
@@ -10,11 +10,11 @@ $query = $db->prepare('SELECT t.* FROM `tache` t WHERE t.id_projet ='.$p);
 
               
 
-               echo " <div class='panel panel-default'>
+               echo " <div class='col-lg-6 panel panel-default'>
 		              <div class='panel-body'>
-		              <div class='col-lg-9'>
-			                 <div class='form-group'>
-			              <label class='col-md-3 control-label'>".$ligne['nom_tache']."</label></div></div>
+		              <div class='col-lg-10'>
+			                 <div class='form-group col-lg-10'>
+			              <label class='col-lg-8 control-label'>".$ligne['nom_tache']."</label></div></div>
               <div class='form-group'>
               <div class='col-sm-9'>
               <div class='progress'>
@@ -26,10 +26,7 @@ $query = $db->prepare('SELECT t.* FROM `tache` t WHERE t.id_projet ='.$p);
                         </div>
                         </div>
                  </div>
-                 <div class='form-group'>
-                      <label  class='col-sm-4 control-label' >propriétaire</label>
-                      <div class='col-xs-4'> ".$ligne['username']."
-                        </div></div>
+                 
                         <div class='form-group'>
                          <label  class='col-sm-4 control-label' >date d'affectation</label>
                       <div class='col-xs-4'> ".$ligne['date_affectation']."
@@ -41,16 +38,9 @@ $query = $db->prepare('SELECT t.* FROM `tache` t WHERE t.id_projet ='.$p);
                       <div class='col-xs-4'> ".$ligne['date_butoir']."
                         </div>
                         </div>
-                        <div class='form-group'>
-                         <label  class='col-sm-4 control-label' >date de realisation</label>
-                      <div class='col-xs-4'> ".$ligne['date_realisation']."
-                        </div>
-                        </div>
-						<div class='form-group'>
-                      <label  class='col-sm-4 control-label' >description</label>
-                      <div class='col-xs-4'> ".$ligne['description']."
                         
-                        </div></div></div></div>
+                         
+					</div></div>
 
               "
 

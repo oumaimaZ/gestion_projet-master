@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gestion de projet</title>
+    <title>Gestionnaire de projet</title>
 
 
     <!-- DataTables CSS -->
@@ -78,7 +78,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">Gestion de projets</a>
+                <a class="navbar-brand" href="index.php">Gestionnaire de projets</a>
             </div>
             <!-- /.navbar-header -->
 

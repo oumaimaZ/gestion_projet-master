@@ -119,7 +119,7 @@ if (isset($_POST['creer'])){
     <div class="row">
       <div class="col-md-12">
         <h1 class="page-header">Documents</h1>
-        <button class="btn btn-primary col-md-2" data-toggle="modal" data-target="#ajoutDocument"><i class="fa fa-plus-circle"></i> Nouveau document</button>
+        <button class="btn btn-primary col-md-3" data-toggle="modal" data-target="#ajoutDocument"><i class="fa fa-plus-circle"></i> Nouveau document </button>
         <div class="col-md-5">
           <form class="form-inline">
             <div class="form-group pull-right">

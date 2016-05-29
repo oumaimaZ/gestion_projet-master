@@ -25,6 +25,8 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
 
 
+
+
 ?>
 
 <div id="page-wrapper">
@@ -45,6 +47,11 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
 <h4> liste des projets </h4>
               <div class="panel-body">
+             
+ 
+ 
+</body>
+</html>
               <div class="form-group">
               <div class="col-sm-8" >
               <div class="list-group">
@@ -54,8 +61,7 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
                                   echo "<button   class='b list-group-item' data-toggle='modal' data-target='#a' value=".$ligne['id_projet']."><label>".$ligne['titre']."</label><div class='progress'>
                       <div class='progress-bar progress-bar-striped' style='width: ".$ligne['evolution']."%'>".$ligne['evolution']."%</div>
                   </div></button>";}
-?>
-
+                  ?>
               </div>
               </div>
               </div>
@@ -74,7 +80,7 @@ $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 
   <!-- Modal -->
   <div id="a" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
 
       <!-- Modal content-->
       <div class="modal-content">
