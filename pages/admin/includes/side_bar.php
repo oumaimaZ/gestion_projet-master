@@ -34,9 +34,7 @@
                          <li>
                             <a href="Notif.php"><i class="fa fa-envelope-o fa-fw"></i> Notification</a>
                         </li>
-                         <li>
-                            <a href="utilisateurs.php"><i class="fa fa-users fa-fw"></i> Utilisateurs</a>
-                        </li>
+                        
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
