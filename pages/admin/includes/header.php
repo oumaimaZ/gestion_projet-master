@@ -32,12 +32,6 @@
 
     <!-- Custom CSS -->
     <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="../../bower_components/morrisjs/morris.css" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="../../dist/css/bootstrap-tokenfield.css" rel="stylesheet">
     <!-- jQuery UI -->
     <link href="../../dist/css/jquery-ui.css" rel="stylesheet">
 
