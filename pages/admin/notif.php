@@ -2,14 +2,14 @@
 <?php
   include 'includes/header.php';
   include 'includes/side_bar.php';
-
+$db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 ?>
 <?php
 $user_session=$_SESSION["id_user"];
- $sql='SELECT * FROM user WHERE id_user='.$user_session;
-$query = $db->prepare($sql);
-  $query->execute();
-  echo $query ;
+ $sql='SELECT username FROM user WHERE id_user='.$user_session;
+$u = $db->prepare($sql);
+  $u->execute();
+
 ?>
 <h1>Envoyer un message privé!</h1>
 <form action="index.php" method="post">
@@ -36,7 +36,7 @@ if(isset($_POST['submit']))
     $requete = $bdd->prepare('SELECT * FROM user WHERE username = $destinataire');
     $requete->execute();
     $donnees = $requete->fetch();
-    $requete->CloseCursor();
+    
 if(!$donnees)
 {
     echo "Identifiant introuvable";
