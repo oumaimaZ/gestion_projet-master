@@ -15,13 +15,13 @@
                         
                         
                           <li>
-                            <a href="mes_projets.php"><i class="fa fa-paperclip fa-fw"></i>Projets</a>
+                            <a href="mes_projets.php"><i class="fa fa-archive fa-fw"></i>Projets</a>
                         </li>
                         <li>
                             <a href="taches.php"><i class="fa fa-tasks fa-fw"></i>Taches </a>
                         </li>
                          <li>
-                            <a href="user.php"><i class="fa fa-paperclip fa-fw"></i>User </a>
+                            <a href="user.php"><i class="fa fa-users fa-fw"></i>User </a>
                         </li>
                        
                          <li>
