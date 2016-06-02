@@ -173,6 +173,7 @@ $query->execute();
                   echo'<td align="center"><a class=" menu-icon fa fa-pencil" data-toggle="modal" data-target="#modifier_projet" onclick="triggerDocumentModal('.$ligne['id_projet'].' );"></a></td>';
                   echo '<td align="center"><button class="b btn btn-sm btn-warning" data-toggle="modal" data-target="#detail_projet" value='.$ligne['id_projet'].' >details</a></td>';
                   echo "</tr>";
+                  //test
                 }
                 ?>
               </tbody>
