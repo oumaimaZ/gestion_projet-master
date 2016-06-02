@@ -5,6 +5,9 @@
                         <li>
                             <a href="index.php"><i class="fa fa-home fa-fw"></i> Accueil</a>
                         </li>
+                        <li>
+                            <a href="inbox.php"><i class="fa fa-envelope fa-fw"></i> Boite de reception</a>
+                        </li>
                        
                         <li>
                             <a href="mes_documents.php"><i class="fa fa-file-text fa-fw"></i> Documents</a>
@@ -29,10 +32,6 @@
                        
                          <li>
                             <a href="events.php"><i class="fa fa-calendar fa-fw"></i> Evenement</a>
-                        </li>
-                       
-                         <li>
-                            <a href="Notif.php"><i class="fa fa-envelope-o fa-fw"></i> Notification</a>
                         </li>
                         
                     </ul>
