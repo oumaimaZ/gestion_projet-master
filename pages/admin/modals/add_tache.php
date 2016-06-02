@@ -9,7 +9,7 @@
         <h3 class="modal-title">Nouvelles taches</h3>
       </div>
       <div class="modal-body">
-        <form role="form" action="new_tache.php" method="POST" class="form-horizontal" id="tache_form">
+        <form role="form" action="taches.php" method="POST" class="form-horizontal" id="tache_form">
         <div id="holder">
             <div class="form-group">
               <label class="control-label col-md-2" for="projet">Projet</label>

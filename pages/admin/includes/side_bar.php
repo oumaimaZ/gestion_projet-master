@@ -21,12 +21,6 @@
                             <a href="taches.php"><i class="fa fa-tasks fa-fw"></i>Taches </a>
                         </li>
                          <li>
-                            <a href="mes_taches.php"><i class="fa fa-tasks fa-fw"></i>Mes taches </a>
-                        </li>
-                         <li>
-                            <a href="new_tache.php"><i class="fa fa-tasks fa-fw"></i>taches </a>
-                        </li>
-                         <li>
                             <a href="user.php"><i class="fa fa-paperclip fa-fw"></i>User </a>
                         </li>
                        
