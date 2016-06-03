@@ -135,10 +135,10 @@ if(isset($_GET['filtre']) && $_GET['filtre'] == '2'){
         if(x < maxField){ //Check maximum number of input fields
             x++; //Increment field counter
             $(wrapper).append(fieldHTML); // Add field html
-        }else{
-          alert('vous ne pouver pas ajouter plus de ' + x + ' taches');
-        }
-    });
+          }else{
+            alert('vous ne pouver pas ajouter plus de ' + x + ' taches');
+          }
+        });
 
   });
 </script>
@@ -157,6 +157,21 @@ if(isset($_GET['filtre']) && $_GET['filtre'] == '2'){
     $(document).ready(function(){
       document.location.href = "taches.php?filtre=" + document.getElementById('filtre').value;
     });
+  }
+
+  function changeValue(progress, value, id){
+    if(document.getElementById('filtre').value == '2'){
+      document.getElementById(progress).style.width = document.getElementById(value).value + '%';
+      document.getElementById(progress).innerHTML = document.getElementById(value).value + '%';
+      $.ajax({
+        url: 'ajax/updateTask.php',
+        method: 'POST',
+        data:{
+          progress: document.getElementById(value).value,
+          id_tache: id
+        }
+      });
+    }else alert('desolee vous ne pouver pas modifier le progres des autres');
   }
 </script>
 <!-- END MODAL--> 
