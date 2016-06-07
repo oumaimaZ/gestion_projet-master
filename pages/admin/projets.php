@@ -1,4 +1,5 @@
 <?php 
+  include 'scripts_php/edit_projet.php';
 	include 'scripts_php/add_projet.php';
 	include 'includes/header.php';
 	include 'includes/side_bar.php';
@@ -36,10 +37,8 @@
                   <th>#</th>
                   <th>nom du projet </th>
                   <th>proprietaire</th>
-
                   <th>statut  </th>
                   <th>date de création</th>
-
                   <th>modifier</th>
                   <th>détails </th>
                 </tr>
@@ -58,7 +57,34 @@
       </div>
     </div>
   </div>	
+      <!-- Modaldetail -->
+  <div id="detail_projet" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <form class='form-horizontal' role='form'  action='projets.php' method='POST'>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class='detail'></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <?php include 'modals/add_projet.php'; ?>
+  <?php include 'modals/edit_projet.php'; ?>
+
+  <!-- - -end of modal detail- -->
+  <script type="text/javascript">
+  $('.b').click(function(){
+    var b= $(this).val();
+    $.post('modals/detail_projet.php',{val:b},function(result){
+      $('.detail').html(result)
+    });
+  });
+
+</script>
 </div>
 <script>
   function reload(){

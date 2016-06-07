@@ -26,19 +26,13 @@ function triggerProjectModal(id){
 		url: 'ajax/getuser_projet.php?id_projet=' + id,
 		type: 'GET',
 		success: function(data){
-
-			var parsed = JSON.parse(data);
-
-			document.getElementById('titreM').value = parsed.titre;
-			document.getElementById('propM').value = parsed.proprietaire;
-			document.getElementById('membreM').value = parsed.membre;
-			document.getElementById('descM').value = parsed.desc;
-			document.getElementById('dbM').value = parsed.db;
-			document.getElementById('statutM').value = parsed.statut;
-			document.getElementById('id_projet').value = parsed.id_projet;
-			document.getElementById('id_user').value = parsed.id_user;
-			document.getElementById('dcM').value = parsed.dc;
-			document.getElementById('dc').disabled = true;
+			var date = data.date_butoir.split(" ");
+			document.getElementById('edit_titre').value = data.titre;
+			document.getElementById('edit_prop').value = data.proprietaire;
+			document.getElementById('edit_desc').innerHTML = data.description;
+			document.getElementById('edit_db').value = date[0];
+			document.getElementById('id_projet').value = data.id_projet;
+			document.getElementById('id_user').value = data.id_user;
 		}
 	});
 }
