@@ -1,4 +1,5 @@
 <?php 
+  include 'scripts_php/delete_projet.php';
   include 'scripts_php/edit_projet.php';
 	include 'scripts_php/add_projet.php';
 	include 'includes/header.php';
@@ -31,6 +32,7 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="dataTable_wrapper">
+            <form method="POST" action="projets.php">
             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
               <thead>
                 <tr>
@@ -51,7 +53,8 @@
               </tbody>
 
             </table>
-            <input class="btn btn-danger" type="submit" name="delete" value="Supprimer">
+            <button class="btn btn-danger pull-left" type="submit" name="delete">Supprimer</button>
+            </form>
           </div>
         </div>
       </div>

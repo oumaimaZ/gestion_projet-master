@@ -71,7 +71,7 @@ if (isset($_POST['submit'])){
                   "'.$nom.'",
                   "'.$prenom.'",
                   "'.$code.'",
-                  " '.$adresse.'",
+                  "'.$adresse.'",
                   "'.$div.'",
                   "'.$dir.'",
                   "'.$tel.'",
@@ -81,7 +81,8 @@ if (isset($_POST['submit'])){
                   "'.$tache.'",
                   "'.$event.'",
                   "'.$notif.'",
-                  "'.$user.'")';
+                  "'.$user.'",
+                  "'.$projet.'")';
 $query = $db->prepare($sql);
 $query->execute();
 }else{

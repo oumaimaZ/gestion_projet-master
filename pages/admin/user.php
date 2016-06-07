@@ -1,4 +1,5 @@
 <?php
+include 'scripts_php/delete_user.php';
 include 'scripts_php/edit_users.php';
 include 'scripts_php/add_users.php';
 include 'includes/header.php';
@@ -27,6 +28,7 @@ $query->execute();
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="dataTable_wrapper">
+            <form method="POST" action="user.php">
             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
               <thead>
                 <tr>
@@ -60,9 +62,9 @@ $query->execute();
               }
               ?>
             </tbody>
-
-          </tbody>
         </table>
+        <button class="btn btn-danger pull-left" type="submit" name="delete">Supprimer</button>
+        </form>
       </div>
       <!-- /.table-responsive -->
     </div>

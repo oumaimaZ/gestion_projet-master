@@ -128,7 +128,7 @@ if(isset($_GET['filtre']) && $_GET['filtre'] == '2'){
     var maxField = 5; 
     var addButton = $('#add_group'); 
     var wrapper = $('#holder');
-    var fieldHTML = '<div class="form-group"> <label class="control-label col-md-2" for="user">Tache</label> <div class="col-md-3"> <input type="text" name="titres[]" class="form-control" placeholder="Titre" required> </div> <div class="col-md-3"> <input type="text" name="users[]"class="form-control" placeholder="Utilisateur" required></div> <div class="col-md-4"><input type="date" name="dates[]" class="form-control" placeholder="Date butoir" required></div></div>';
+    var fieldHTML = '<div class="form-group"> <label class="control-label col-md-2" for="user">Tache</label> <div class="col-md-3"> <input type="text" name="titres[]" class="form-control" placeholder="Titre" required> </div> <div class="col-md-3"> <input type="text" id="user" name="users[]"class="form-control" placeholder="Utilisateur" required></div> <div class="col-md-4"><input type="date" name="dates[]" class="form-control" placeholder="Date butoir" required></div></div>';
     var x = 1; //Initial field counter is 1
 
     $(addButton).click(function(){ //Once add button is clicked
@@ -140,6 +140,17 @@ if(isset($_GET['filtre']) && $_GET['filtre'] == '2'){
           }
         });
 
+  });
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('#user').tokenfield({
+      autocomplete: {
+        source: 'ajax/getUsersNames.php'
+      },
+      showAutocompleteOnFocus: true
+    });
   });
 </script>
 <!-- Modal -->

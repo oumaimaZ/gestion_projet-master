@@ -5,6 +5,13 @@ function triggerModal(id){
 		type: 'GET',
 		success: function(data){
 
+			for(var i=0; i < 5 ; i++){
+				document.getElementById('edit_projet' + (i+1)).checked = false;
+				document.getElementById('edit_user' + (i+1)).checked = false;
+				document.getElementById('edit_tache' + (i+1)).checked = false;
+				document.getElementById('edit_document' + (i+1)).checked = false;
+			}
+
 			document.getElementById('edit_nom').value = data.nom;
 			document.getElementById('edit_prenom').value = data.prenom;
 			document.getElementById('edit_username').value = data.username;
@@ -17,6 +24,7 @@ function triggerModal(id){
 			priviliges(data.priv_document, 'edit_document');
 			priviliges(data.priv_user, 'edit_user');
 			priviliges(data.priv_tache, 'edit_tache');
+			priviliges(data.priv_projet, 'edit_projet');
 		}
 	});
 }
