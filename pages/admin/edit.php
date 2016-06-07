@@ -15,7 +15,7 @@ $query = $query->fetch();
 	<div class="row">
 		<div class="col-lg-8">
 			<br>
-			<h1>Mon profile</h1>
+			<h1>Mon profil</h1>
 		</div>
 	</div>
 	<hr>
@@ -24,14 +24,34 @@ $query = $query->fetch();
 			<h2 >Mes informations</h2><br>
 			<div class="col-lg-5">
 				<h5 ><b>Username : </b><?php echo '  '.$_SESSION['username']; ?></h5>
+				</div>
+			<div class="col-lg-5">
 				<h5 ><b>Role : </b>
-					<?php if($_SESSION['role']=='1') {echo 'Administrateur';}
+					<?php if($_SESSION['role']=='1') {echo 'Administrateur';}else{echo 'Utilisateur personnalisé';}
 					?>
-				</h5><br>
+				</h5>
 			</div>
 			<div class="col-lg-5">
 				<h5 ><b>Prenom : </b><?php echo '  '.$query['nom']; ?></h5>
+				</div>
+			<div class="col-lg-5">
 				<h5 ><b>Nom : </b><?php echo '  '.$query['prenom']; ?></h5>
+			</div>
+			<div class="col-lg-5">
+				<h5 ><b>adresse : </b><?php echo '  '.$query['adresse']; ?></h5>
+				</div>
+			<div class="col-lg-5">
+				<h5 ><b>telephone : </b><?php echo '  '.$query['telephone']; ?></h5>
+			</div>
+			<div class="col-lg-5">
+				<h5 ><b>email : </b><?php echo '  '.$query['email']; ?></h5>
+				</div>
+			
+			<div class="col-lg-5">
+				<h5 ><b>direction: </b><?php echo '  '.$query['direction']; ?></h5>
+				</div>
+				<div class="col-lg-5">
+				<h5 ><b>division: </b><?php echo '  '.$query['division']; ?></h5>
 			</div>
 		</div>
 
@@ -41,7 +61,7 @@ $query = $query->fetch();
 				<div class="row">
 					<div class="col-lg-5">
 						<div class="form-group">
-							<label class="control-label" for="current">Current :</label>
+							<label class="control-label" for="current">Mot de passe courant :</label>
 							<input type="password" class="form-control" id="current" name="current" required>
 						</div>                                   
 					</div>
@@ -49,13 +69,13 @@ $query = $query->fetch();
 				<div class="row">
 					<div class="col-lg-5">
 						<div class="form-group">
-							<label>Nouveau :</label>
+							<label>Nouveau mot de passe :</label>
 							<input type ="password" class="form-control" name="new" id="new" required>
 						</div> 
 					</div>
 					<div class="col-lg-5">
 						<div class="form-group">
-							<label class="control-label" for="re_new">Re-Type new :</label>
+							<label class="control-label" for="re_new">Confirmation du mot de passe :</label>
 							<input type="password" class="form-control" id="re_new" name="re_new"required >
 						</div>
 					</div>			
