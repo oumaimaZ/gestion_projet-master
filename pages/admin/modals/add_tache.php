@@ -31,7 +31,15 @@
                <input type="text" name="titres[]" class="form-control" placeholder="Titre" required>
              </div>
              <div class="col-md-3">
-               <input type="text" name="users[]" class="form-control" placeholder="Utilisateur" required>
+               <select name="users[]" class="form-control">
+                 <?php 
+                  $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
+                  $query = $db->query('SELECT username FROM user');
+                  foreach ($query as $row) {
+                    echo '<option value="'.$row['username'].'" >'.$row['username'].'</option>';
+                  }
+                 ?>
+               </select>
              </div>
              <div class="col-md-4">
                <input type="text" onfocus="(this.type='date')" name="dates[]" class="form-control" placeholder="Date butoir" required>

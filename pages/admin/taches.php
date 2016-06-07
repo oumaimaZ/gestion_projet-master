@@ -125,10 +125,19 @@ if(isset($_GET['filtre']) && $_GET['filtre'] == '2'){
 <?php  include 'modals/add_tache.php';?>
 <script>
   $(document).ready(function(){
-    var maxField = 5; 
-    var addButton = $('#add_group'); 
-    var wrapper = $('#holder');
-    var fieldHTML = '<div class="form-group"> <label class="control-label col-md-2" for="user">Tache</label> <div class="col-md-3"> <input type="text" name="titres[]" class="form-control" placeholder="Titre" required> </div> <div class="col-md-3"> <input type="text" id="user" name="users[]"class="form-control" placeholder="Utilisateur" required></div> <div class="col-md-4"><input type="date" name="dates[]" class="form-control" placeholder="Date butoir" required></div></div>';
+    $.ajax({
+      url: 'ajax/getUsers.php',
+      method: "GET",
+      dataType: "json",
+      success: function(data){
+        var options = "";
+        for(var i=0 ; i < data.length; i++){
+          options += '<option value="'+data[i].username+'">'+data[i].username+'</option>';
+        }
+        var maxField = 5; 
+        var addButton = $('#add_group'); 
+        var wrapper = $('#holder');
+        var fieldHTML = '<div class="form-group"> <label class="control-label col-md-2" for="user">Tache</label> <div class="col-md-3"> <input type="text" name="titres[]" class="form-control" placeholder="Titre" required> </div> <div class="col-md-3"> <select name="users[]" class="form-control">'+options+'</select></div> <div class="col-md-4"><input type="date" name="dates[]" class="form-control" placeholder="Date butoir" required></div></div>';
     var x = 1; //Initial field counter is 1
 
     $(addButton).click(function(){ //Once add button is clicked
@@ -139,6 +148,8 @@ if(isset($_GET['filtre']) && $_GET['filtre'] == '2'){
             alert('vous ne pouver pas ajouter plus de ' + x + ' taches');
           }
         });
+  }
+});
 
   });
 </script>
