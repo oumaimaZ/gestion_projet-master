@@ -3,35 +3,14 @@
 $db = new PDO('mysql:host=localhost;dbname=mgp_data;charset=utf8', 'root', '');
 if(isset($_POST['delete'])){
 
-  $sql = 'SELECT * FROM document';
-  $result = $db->prepare($sql);
-  $result->execute();
-  $count = $result->rowCount($result);
-  for($i=0;$i<$count;$i++)
+  for($i=0;$i < sizeof($_REQUEST['checkbox']) ; $i++)
   {
-
     $del_id = $_POST['checkbox'][$i];
-    $sql = "DELETE FROM document WHERE id_doc = '$del_id' ";
-    $result = $db->prepare($sql);
-    $result->execute();
-
+    $name = $db->query("SELECT nom_fichier FROM document WHERE id_doc = '$del_id' ");
+    $name = $name->fetch();
+    $db->query("DELETE FROM document WHERE id_doc = '$del_id' ");
+    unlink("bibliotheque" . "/" . $name['nom_fichier']);
   }
-  $fichier=$_POST['nom_fichier'];
-  $dossier_traite = "bibliotheque";
-  $repertoire = opendir($dossier_traite);
-  while (false !== ($fichier = readdir($repertoire)))
-  {
-    $chemin = $dossier_traite."/".$fichier;
-    // Si le fichier n'est pas un répertoire…
-    if ($fichier != ".." AND $fichier != "." AND !is_dir($fichier))
-      {if($fichier =basename($fichier,".pdf").PHP_EOL)
-    {unlink($chemin);
-    }
-  }
-}
-closedir($repertoire);
-if($result){
-  header('location:mes_documents.php');}
 }
 $sql = 'SELECT *  FROM document';
 $query = $db->prepare($sql);
@@ -162,7 +141,7 @@ if (isset($_POST['creer'])){
                     {
                       echo "<tr>";
                       echo "<td align='center'><input name='checkbox[]' type='checkbox' id='checkbox[]' value='".$ligne['id_doc']."'> ";
-
+                      echo "<input type='hidden' name='filenames[]' value='".$ligne['nom_fichier']."'/>";
                       echo "<td align='center'>".$ligne['titre']."</td>";
                       echo "<td align='center'>".$ligne['nom_projet']."</td>";
                       echo "<td align='center'>".$ligne['date_creation']."</td>";

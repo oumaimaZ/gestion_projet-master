@@ -171,7 +171,10 @@ if(isset($_GET['filtre']) && $_GET['filtre'] == '2'){
           id_tache: id
         }
       });
-    }else alert('desolee vous ne pouver pas modifier le progres des autres');
+    }else {
+      document.getElementById(value).disabled = true;
+      alert('desolee vous ne pouver pas modifier le progres des autres');
+    }
   }
 </script>
 <!-- END MODAL--> 

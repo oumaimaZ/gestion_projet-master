@@ -14,6 +14,8 @@ if (isset($_POST['submit'])){
   $sql0='SELECT username from user WHERE id_user='.$_SESSION['id_user'];
   $proprietaire= $db->prepare($sql0);
   $proprietaire->execute();
+  $proprietaire = $proprietaire->fetch();
+  $proprietaire = $proprietaire['username'];
 
   if($titre != "" && $desc !="" && $db != "" && $participant !="" ){
     $sql = 'INSERT INTO projet(titre,date_butoir,description) VALUES ("'.$titre.'","'.$db.'","'.$desc.'")';

@@ -5,17 +5,18 @@ function triggerModal(id){
 		type: 'GET',
 		success: function(data){
 
-			var parsed = JSON.parse(data);
-
-			document.getElementById('hiddenid').value = parsed.id_user;
-			document.getElementById('nomM').value = parsed.nom;
-			document.getElementById('prenomM').value = parsed.prenom;
-			document.getElementById('serviceM').value = parsed.service;
-			document.getElementById('directionM').value = parsed.direction;
-			document.getElementById('telephoneM').value = parsed.telephone;
-			document.getElementById('emailM').value = parsed.email;
-			document.getElementById('roleM').value = parsed.role;
-			document.getElementById('roleM').disabled = true;
+			document.getElementById('edit_nom').value = data.nom;
+			document.getElementById('edit_prenom').value = data.prenom;
+			document.getElementById('edit_username').value = data.username;
+			document.getElementById('edit_division').value = data.division;
+			document.getElementById('edit_direction').value = data.direction;
+			document.getElementById('edit_telephone').value = data.telephone;
+			document.getElementById('edit_email').value = data.email;
+			document.getElementById('edit_adresse').value = data.adresse;
+			document.getElementById('hidden_id').value = data.id_user;
+			priviliges(data.priv_document, 'edit_document');
+			priviliges(data.priv_user, 'edit_user');
+			priviliges(data.priv_tache, 'edit_tache');
 		}
 	});
 }
@@ -60,4 +61,18 @@ function triggerDocumentModal(id){
 		}
 	});
 }
-
+function priviliges(privs, type){
+	privs = privs.split(",");
+	for(var i = 0 ; i < privs.length ; i++){
+		switch(privs[i]){
+			case '1': document.getElementById(type + "2").checked = true; console.log(type + "done");
+			break;
+			case '2': document.getElementById(type + "3").checked = true; console.log(type + "done");
+			break;
+			case '3': document.getElementById(type + "4").checked = true; console.log(type + "done");
+			break;
+			case '4': document.getElementById(type + "5").checked = true; console.log(type + "done");
+			break;
+		}
+	}
+}
