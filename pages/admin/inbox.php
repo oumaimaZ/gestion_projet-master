@@ -34,7 +34,7 @@ if(isset($_GET['type']) && $_GET['type'] == '2'){
         <div class="tab-pane fade in active" id="home">
         <form action="inbox.php<?php if(isset($_GET['type'])) echo '?type='.$_GET['type']; ?>";" method="POST">
           <div class="list-group">
-            <?php 
+            <?php $n = $query->rowCount();
             while ($row = $query->fetch()){
 
               if(isset($_GET['type']) && $_GET['type'] == '2'){
@@ -51,7 +51,7 @@ if(isset($_GET['type']) && $_GET['type'] == '2'){
 
               ?>
 
-              <a href="<?php echo '#'; ?>" class="list-group-item">
+              <a href="<?php echo 'message.php?id='.$row['id_notif'].'&n='.$n; ?>" class="list-group-item">
                 <div class="checkbox">
                   <label>
                     <input type="checkbox" name="messages[]" value="<?php echo $row['id_notif']; ?>">
